@@ -48,6 +48,9 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                const Text('Вишневский Максим Андреевич', style: TextStyle(color: Colors.green),),
+                const Text('ИКБО-06-22', style: TextStyle(color: Colors.green),),
+                const Text('22И1111', style: TextStyle(color: Colors.green),),
                 ElevatedButton(onPressed: null, child: const Text("Кнопочка"),
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(Colors.greenAccent)
