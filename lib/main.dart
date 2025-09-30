@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomeScreen(),
     CrocodileScreen(),
     CalculatorScreen(),
-    const Text("Gif Screen"),
+    const GifScreen(),
     const Text("List Screen"),
   ];
 
