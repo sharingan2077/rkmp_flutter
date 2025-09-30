@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
     CrocodileScreen(),
     CalculatorScreen(),
     const GifScreen(),
-    const Text("List Screen"),
+    const ListScreen(),
   ];
 
   void _onItemTapped(int index) {
