@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:project/calculator_screen.dart';
+import 'package:project/crocodile_screen.dart';
+import 'package:project/gif_screen.dart';
+import 'package:project/home_screen.dart';
+import 'package:project/list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,19 +12,21 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+
   const MyHomePage({super.key, required this.title});
 
   final String title;
@@ -29,38 +36,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> screens = [
+    const Text("Home Screen"),
+    const Text("Crocodile Screen"),
+    const Text("Calculator Screen"),
+    const Text("Gif Screen"),
+    const Text("List Screen"),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Вишневский Максим Андреевич   ',
-              style: TextStyle(color: Colors.green),
-            ),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(50)
-              ),
-              child:
-                const Text(
-                  'ИКБО-06-22    ',
-                  style: TextStyle(color: Colors.green),
-                ),
-            ),
-
-            const Text('22И1111    ', style: TextStyle(color: Colors.green)),
-          ],
-        ),
+      appBar: AppBar(backgroundColor: Colors.amber, title: Text(widget.title)),
+      body: screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Начало"),
+          BottomNavigationBarItem(icon: Icon(Icons.pets), label: "Крокодилы"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calculate),
+            label: "Калькулятор",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.gif), label: "Gif"),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: "Список"),
+        ],
+        type: BottomNavigationBarType.fixed,
+        onTap: _onItemTapped,
+        currentIndex: _selectedIndex,
       ),
     );
   }
