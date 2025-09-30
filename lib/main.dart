@@ -29,33 +29,34 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-          backgroundColor: Theme
-              .of(context)
-              .colorScheme
-              .inversePrimary,
+        title: Text(widget.title),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Вишневский Максим Андреевич   ',
+              style: TextStyle(color: Colors.green),
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+              child: const Text(
+                'ИКБО-06-22    ',
+                style: TextStyle(color: Colors.green),
+              ),
+            ),
 
-          title: Text(widget.title),
+            const Text('22И1111    ', style: TextStyle(color: Colors.green)),
+          ],
         ),
-        body: Center(
-
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('Вишневский Максим Андреевич   ', style: TextStyle(color: Colors.green),),
-                SizedBox(height: 40),
-                const Text('ИКБО-06-22    ', style: TextStyle(color: Colors.green),),
-                SizedBox(height: 40),
-                const Text('22И1111    ', style: TextStyle(color: Colors.green),),
-              ],
-            )
-        )
+      ),
     );
   }
 }
