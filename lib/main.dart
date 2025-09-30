@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
   final String title;
 
   @override
@@ -33,26 +34,27 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        appBar: AppBar(
 
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme
+              .of(context)
+              .colorScheme
+              .inversePrimary,
 
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Вишневский Максим Андреевич', style: TextStyle(color: Colors.green),),
-            const Text('ИКБО-06-22', style: TextStyle(color: Colors.green),),
-            const Text('22И1111', style: TextStyle(color: Colors.green),),
-          ],
+          title: Text(widget.title),
         ),
-      ),
- // This trailing comma makes auto-formatting nicer for build methods.
+        body: Center(
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(onPressed: null, child: const Text("Кнопочка"),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.greenAccent)
+                ),)
+              ],
+            )
+        )
     );
   }
 }
-s
