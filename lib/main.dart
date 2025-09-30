@@ -45,12 +45,17 @@ class _MyHomePageState extends State<MyHomePage> {
               'Вишневский Максим Андреевич   ',
               style: TextStyle(color: Colors.green),
             ),
-            Padding(
+            Container(
               padding: EdgeInsets.all(10),
-              child: const Text(
-                'ИКБО-06-22    ',
-                style: TextStyle(color: Colors.green),
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius: BorderRadius.circular(50)
               ),
+              child:
+                const Text(
+                  'ИКБО-06-22    ',
+                  style: TextStyle(color: Colors.green),
+                ),
             ),
 
             const Text('22И1111    ', style: TextStyle(color: Colors.green)),
