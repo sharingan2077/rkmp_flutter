@@ -41,7 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> screens = [
     const HomeScreen(),
     CrocodileScreen(),
-    const Text("Calculator Screen"),
+    CalculatorScreen(),
     const Text("Gif Screen"),
     const Text("List Screen"),
   ];
