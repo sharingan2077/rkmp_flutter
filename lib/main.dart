@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/crocodile_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -7,57 +8,33 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-      ),
-      home: const MyHomePage(title: 'Flutter Prac 4'),
+      title: 'Крокодилы',
+      theme: ThemeData(primarySwatch: Colors.green),
+      home: const HomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Главная')),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-          Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
-          Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
-          Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
-          Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
-              Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
-
-        ]),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CrocodileListScreen()),
+            );
+          },
+          child: const Text('Перейти к крокодилам'),
+        ),
       ),
     );
   }
