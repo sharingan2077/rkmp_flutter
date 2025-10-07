@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/%D1%81rocodile_listview_screen.dart';
 import 'package:project/crocodile_list_screen.dart';
+import 'package:project/crocodile_listview_separated_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -54,6 +55,18 @@ class HomePage extends StatelessWidget {
                   );
                 },
                 child: const Text('Крокодилы (ListView.builder)'),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CrocodileListSeparatedScreen(),
+                    ),
+                  );
+                },
+                child: const Text('Крокодилы (ListView.separated)'),
               ),
             ],
           ),
