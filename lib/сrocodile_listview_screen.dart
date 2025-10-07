@@ -112,17 +112,31 @@ class _CrocodileListViewScreenState extends State<CrocodileListViewScreen> {
                 itemCount: _crocodiles.length,
                 itemBuilder: (context, index) {
                   final croc = _crocodiles[index];
-                  return Card(
-                    child: ListTile(
-                      title: Text('Возраст: ${croc.age} лет'),
-                      subtitle: Text('Цвет: ${croc.color}'),
-                    ),
+                  return CrocodileTile(
+                    key: ValueKey('${croc.age}_${croc.color}'),
+                    croc: croc,
                   );
                 },
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CrocodileTile extends StatelessWidget {
+  final Crocodile croc;
+
+  const CrocodileTile({super.key, required this.croc});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text('Возраст: ${croc.age} лет'),
+        subtitle: Text('Цвет: ${croc.color}'),
       ),
     );
   }
