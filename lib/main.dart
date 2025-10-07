@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-
   const MyHomePage({super.key, required this.title});
 
   final String title;
@@ -31,13 +30,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(widget.title),
+      body: Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+          Text("Вишневский", style: TextStyle(color: Colors.green, fontSize: 30),),
+          Text("Максим", style: TextStyle(color: Colors.green, fontSize: 30),),
+          Text("Андреевич", style: TextStyle(color: Colors.green, fontSize: 30),),
+          Text("ИКБО-06-22", style: TextStyle(color: Colors.green, fontSize: 30),),
+
+        ]),
+      ),
     );
   }
-
-
 }
