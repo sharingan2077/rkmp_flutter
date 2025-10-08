@@ -41,11 +41,11 @@ class _CrocodileListScreenState extends State<CrocodileListScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => AddCrocodileScreen(
-          // onCrocodileAdded: (crocodile) {
-          //   setState(() {
-          //     _crocodiles.add(crocodile);
-          //   });
-          // },
+          onCrocodileAdded: (crocodile) {
+            setState(() {
+              _crocodiles.add(crocodile);
+            });
+          },
         ),
       ),
     );
