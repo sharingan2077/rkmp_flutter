@@ -7,12 +7,14 @@ class CrocodilesListScreen extends StatelessWidget {
   const CrocodilesListScreen({
     super.key,
     required this.crocodiles,
+    required this.onDashboard,
     required this.onAdd,
     required this.onChangeStatus, required this.onDelete(id),
   });
 
   final List<Crocodile> crocodiles;
   final VoidCallback onAdd;
+  final VoidCallback onDashboard;
   final void Function(String) onDelete;
   final void Function(String id, CrocodileStatus status) onChangeStatus;
 
@@ -20,6 +22,10 @@ class CrocodilesListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: onDashboard,
+        ),
         title: const Text('Учет крокодилов'),
       ),
       body: CrocodileListView(

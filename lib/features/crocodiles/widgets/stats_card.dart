@@ -22,7 +22,7 @@ class StatsCard extends StatelessWidget {
         children: [
           StatusChip(
             title: 'Всего особей',
-            value: countHealthyCrocodiles + countTreatmentCrocodiles + countTreatmentCrocodiles,
+            value: countHealthyCrocodiles + countTreatmentCrocodiles + countNeedCheckupCrocodiles,
             icon: Icons.psychology,
             color: Colors.blue,
           ),

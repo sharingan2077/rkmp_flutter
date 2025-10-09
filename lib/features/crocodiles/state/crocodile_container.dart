@@ -91,6 +91,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         return CrocodilesListScreen(
           crocodiles: _crocodiles,
           onAdd: _showForm,
+          onDashboard: _showDashboard,
           onChangeStatus: (id, status) => _changeStatusCrocodile(id, status),
           onDelete: (id) => _deleteCrocodile(id),
         );
