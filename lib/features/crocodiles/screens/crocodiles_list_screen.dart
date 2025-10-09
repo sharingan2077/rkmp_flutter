@@ -8,11 +8,12 @@ class CrocodilesListScreen extends StatelessWidget {
     super.key,
     required this.crocodiles,
     required this.onAdd,
-    required this.onChangeStatus,
+    required this.onChangeStatus, required this.onDelete(id),
   });
 
   final List<Crocodile> crocodiles;
   final VoidCallback onAdd;
+  final ValueChanged<String> onDelete;
   final void Function(String id, CrocodileStatus status) onChangeStatus;
 
   @override
@@ -21,7 +22,11 @@ class CrocodilesListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Учет крокодилов'),
       ),
-      body: CrocodileListView(),
+      body: CrocodileListView(
+        crocodiles: crocodiles,
+        onDelete: onDelete,
+        onChangeStatus: onChangeStatus,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: onAdd,
         child: const Icon(Icons.add),
