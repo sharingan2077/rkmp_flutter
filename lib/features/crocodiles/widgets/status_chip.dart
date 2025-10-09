@@ -1,10 +1,33 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class StatusChip extends StatelessWidget {
-  const StatusChip({super.key});
+  const StatusChip({super.key, required this.icon, required this.color, required this.title, required this.value});
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Card(
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Icon(icon, color: color, size: 40),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 16)),
+                Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

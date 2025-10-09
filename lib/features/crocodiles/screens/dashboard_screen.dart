@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/features/crocodiles/widgets/menu_button.dart';
 import 'package:project/features/crocodiles/widgets/stats_card.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -14,7 +15,10 @@ class DashboardScreen extends StatelessWidget {
         body: Column(
           children: [
             StatsCard(),
-            const SizedBox(height: 16,)
+            const SizedBox(height: 16,),
+            MenuButton(text: "Учет крокодилов", icon: Icons.list, onPressed: () {
+
+            })
           ],
         )
     );

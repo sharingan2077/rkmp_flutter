@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
+import 'package:flutter/material.dart';
 
 class StatsCard extends StatelessWidget {
   const StatsCard({super.key});
