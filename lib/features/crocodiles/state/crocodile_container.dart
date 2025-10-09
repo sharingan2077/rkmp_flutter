@@ -66,9 +66,22 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
 
   void _deleteCrocodile(String id) {
-    setState(() {
-      _crocodiles.removeWhere((c) => c.id == id);
-    });
+    final index = _crocodiles.indexWhere((c) => c.id == id);
+    if (index == -1) return;
+    final removed = _crocodiles.removeAt(index);
+    setState(() {});
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Крокодил удален'),
+        action: SnackBarAction(
+          label: 'Отменить',
+          onPressed: () => setState(() {
+            _crocodiles.insert(index, removed);
+          }),
+        ),
+      ),
+    );
   }
 
   Map<CrocodileStatus, int> _createMapCountStatuses() {
