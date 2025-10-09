@@ -4,9 +4,11 @@ import 'package:project/features/crocodiles/widgets/menu_button.dart';
 import 'package:project/features/crocodiles/widgets/stats_card.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key, required this.statusCounts});
+  const DashboardScreen({super.key, required this.statusCounts, required this.onList});
 
   final Map<CrocodileStatus, int> statusCounts;
+
+  final void Function() onList;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class DashboardScreen extends StatelessWidget {
           MenuButton(
             text: "Учет крокодилов",
             icon: Icons.list,
-            onPressed: () {},
+            onPressed: onList,
           ),
         ],
       ),

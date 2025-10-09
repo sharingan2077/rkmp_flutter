@@ -85,6 +85,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
       case Screen.dashboard:
         return DashboardScreen(
           statusCounts: _createMapCountStatuses(),
+          onList: _showList,
         );
       case Screen.list:
         return CrocodilesListScreen(
