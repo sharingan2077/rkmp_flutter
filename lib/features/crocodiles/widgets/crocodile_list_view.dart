@@ -17,6 +17,9 @@ class CrocodileListView extends StatelessWidget {
       itemBuilder: (context, index) {
         final crocodile = crocodiles[index];
         return CrocodileTile(
+          crocodile: crocodile,
+          onDelete: (id) => onDelete(crocodile.id),
+          onChangeStatus: (id, newStatus) => onChangeStatus(id, newStatus),
         );
       },
     );
