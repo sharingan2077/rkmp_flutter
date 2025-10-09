@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/screens/dashboard_screen.dart';
+import 'package:project/features/crocodiles/state/crocodile_container.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -9,12 +10,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Крокодилы',
       theme: ThemeData(primarySwatch: Colors.green),
-      home: DashboardScreen(
-        countAllCrocodiles: "1",
-        countHealthyCrocodiles: "2",
-        countNeedCheckupCrocodiles: "3",
-        countTreatmentCrocodiles: "4",
-      ),
+      home: CrocodileContainer(),
     );
   }
 }

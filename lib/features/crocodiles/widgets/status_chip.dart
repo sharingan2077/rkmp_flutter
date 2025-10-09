@@ -6,7 +6,7 @@ class StatusChip extends StatelessWidget {
   final IconData icon;
   final Color color;
   final String title;
-  final String value;
+  final int value;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class StatusChip extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(title, style: const TextStyle(fontSize: 16)),
-                Text(value, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                Text(value.toString(), style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
               ],
             ),
           ],

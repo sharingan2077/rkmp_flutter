@@ -13,7 +13,7 @@ class CrocodilesListScreen extends StatelessWidget {
 
   final List<Crocodile> crocodiles;
   final VoidCallback onAdd;
-  final ValueChanged<String> onDelete;
+  final void Function(String) onDelete;
   final void Function(String id, CrocodileStatus status) onChangeStatus;
 
   @override

@@ -4,16 +4,14 @@ import 'package:project/features/crocodiles/widgets/status_chip.dart';
 class StatsCard extends StatelessWidget {
   const StatsCard({
     super.key,
-    required this.countAllCrocodiles,
     required this.countHealthyCrocodiles,
     required this.countNeedCheckupCrocodiles,
     required this.countTreatmentCrocodiles
   });
 
-  final String countAllCrocodiles;
-  final String countHealthyCrocodiles;
-  final String countNeedCheckupCrocodiles;
-  final String countTreatmentCrocodiles;
+  final int countHealthyCrocodiles;
+  final int countNeedCheckupCrocodiles;
+  final int countTreatmentCrocodiles;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class StatsCard extends StatelessWidget {
         children: [
           StatusChip(
             title: 'Всего особей',
-            value: countAllCrocodiles,
+            value: countHealthyCrocodiles + countTreatmentCrocodiles + countTreatmentCrocodiles,
             icon: Icons.psychology,
             color: Colors.blue,
           ),

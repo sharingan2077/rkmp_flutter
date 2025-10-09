@@ -8,7 +8,7 @@ class CrocodileFormScreen extends StatefulWidget {
     required this.onCancel,
   });
 
-  final Function(
+  final void Function(
     String name,
     String species,
     int age,

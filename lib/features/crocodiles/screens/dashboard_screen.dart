@@ -1,20 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/crocodiles/widgets/menu_button.dart';
 import 'package:project/features/crocodiles/widgets/stats_card.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({
-    super.key,
-    required this.countAllCrocodiles,
-    required this.countHealthyCrocodiles,
-    required this.countNeedCheckupCrocodiles,
-    required this.countTreatmentCrocodiles,
-  });
+  const DashboardScreen({super.key, required this.statusCounts});
 
-  final String countAllCrocodiles;
-  final String countHealthyCrocodiles;
-  final String countNeedCheckupCrocodiles;
-  final String countTreatmentCrocodiles;
+  final Map<CrocodileStatus, int> statusCounts;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +18,18 @@ class DashboardScreen extends StatelessWidget {
       body: Column(
         children: [
           StatsCard(
-            countAllCrocodiles: countAllCrocodiles,
-            countHealthyCrocodiles: countHealthyCrocodiles,
-            countNeedCheckupCrocodiles: countNeedCheckupCrocodiles,
-            countTreatmentCrocodiles: countTreatmentCrocodiles,
+            countHealthyCrocodiles: statusCounts.putIfAbsent(
+              CrocodileStatus.healthy,
+              () => 0,
+            ),
+            countNeedCheckupCrocodiles: statusCounts.putIfAbsent(
+              CrocodileStatus.needCheckup,
+              () => 0,
+            ),
+            countTreatmentCrocodiles: statusCounts.putIfAbsent(
+              CrocodileStatus.treatment,
+              () => 0,
+            ),
           ),
           const SizedBox(height: 16),
           MenuButton(
