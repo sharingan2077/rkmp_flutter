@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'crocodile_list_screen.dart';
-import 'statistics_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -55,20 +54,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Expanded(
-                  child: _buildMenuButton(
-                    'Статистика',
-                    Icons.analytics,
-                        () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const StatisticsScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ),
               ],
             ),
           ],
