@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class StatusChip extends StatelessWidget {
-  const StatusChip({super.key, required this.icon, required this.color, required this.title, required this.value});
+  const StatusChip({super.key, required this.title, required this.value, required this.icon, required this.color, });
 
   final IconData icon;
   final Color color;
