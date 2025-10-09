@@ -14,6 +14,7 @@ class MenuButton extends StatelessWidget {
       icon: Icon(icon),
       label: Text(text),
       style: ElevatedButton.styleFrom(
+        minimumSize: Size(200, 50),
         padding: const EdgeInsets.symmetric(vertical: 16),
       ),
     );
