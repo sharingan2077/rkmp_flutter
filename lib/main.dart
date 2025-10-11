@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:project/%D1%81rocodile_listview_screen.dart';
-import 'package:project/crocodile_list_screen.dart';
-import 'package:project/crocodile_listview_separated_screen.dart';
+import 'package:project/screen/%D1%81rocodile_listview_screen.dart';
+import 'package:project/screen/crocodile_list_screen.dart';
+import 'package:project/screen/crocodile_listview_separated_screen.dart';
 
 void main() {
   runApp(const MyApp());
