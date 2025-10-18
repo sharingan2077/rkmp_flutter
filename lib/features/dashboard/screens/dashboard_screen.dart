@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
-import 'package:project/features/crocodiles/widgets/menu_button.dart';
-import 'package:project/features/crocodiles/widgets/stats_card.dart';
+import 'package:project/features/dashboard/widgets/menu_button.dart';
+import 'package:project/features/dashboard/widgets/stats_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key, required this.statusCounts, required this.onList});

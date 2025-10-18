@@ -3,7 +3,7 @@ import 'package:project/features/crocodiles/models/crocodile.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
-import 'package:project/features/crocodiles/screens/dashboard_screen.dart';
+import 'package:project/features/dashboard/screens/dashboard_screen.dart';
 
 enum Screen { dashboard, list, form }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/features/crocodiles/widgets/status_chip.dart';
+import 'package:project/features/dashboard/widgets/status_chip.dart';
 
 class StatsCard extends StatelessWidget {
   const StatsCard({
