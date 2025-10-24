@@ -9,11 +9,13 @@ class DashboardScreen extends StatelessWidget {
     required this.statusCounts,
     required this.onList,
     required this.onFood,
+    required this.onHabitat,
   });
 
   final Map<CrocodileStatus, int> statusCounts;
-  final VoidCallback onFood;
   final void Function() onList;
+  final VoidCallback onFood;
+  final VoidCallback onHabitat;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,12 @@ class DashboardScreen extends StatelessWidget {
             text: "Питание крокодилов",
             icon: Icons.restaurant,
             onPressed: onFood,
+          ),
+          const SizedBox(height: 8),
+          MenuButton(
+            text: "Среда обитания",
+            icon: Icons.nature,
+            onPressed: onHabitat,
           ),
         ],
       ),

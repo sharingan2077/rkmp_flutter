@@ -6,8 +6,10 @@ import 'package:project/features/food/screens/crocodile_food_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
 import 'package:project/features/dashboard/screens/dashboard_screen.dart';
+import 'package:project/features/habitats/models/crocodile_habitat.dart';
+import 'package:project/features/habitats/screens/crocodile_habitat_screen.dart';
 
-enum Screen { dashboard, list, form, food }
+enum Screen { dashboard, list, form, food, habitat }
 
 class CrocodileContainer extends StatefulWidget {
   const CrocodileContainer({super.key});
@@ -19,6 +21,7 @@ class CrocodileContainer extends StatefulWidget {
 class _CrocodileContainerState extends State<CrocodileContainer> {
   final List<Crocodile> _crocodiles = [];
   final List<CrocodileFood> _foods = [];
+  final List<CrocodileHabitat> _habitats = [];
   Screen _currentScreen = Screen.dashboard;
 
   @override
@@ -42,6 +45,8 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   void _showForm() {
     setState(() => _currentScreen = Screen.form);
   }
+
+  void _showHabitat() => setState(() => _currentScreen = Screen.habitat);
 
   void _addCrocodile(
     String name,
@@ -113,6 +118,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
           statusCounts: _createMapCountStatuses(),
           onList: _showList,
           onFood: _showFood,
+          onHabitat: _showHabitat,
         );
       case Screen.list:
         return CrocodilesListScreen(
@@ -126,6 +132,11 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList);
       case Screen.food:
         return CrocodileFoodScreen(foods: _foods, onBack: _showDashboard);
+      case Screen.habitat:
+        return CrocodileHabitatScreen(
+          habitats: _habitats,
+          onBack: _showDashboard,
+        );
     }
   }
 
@@ -134,7 +145,6 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
 
   void _initializeSampleData() {
-    // Sample foods
     _foods.addAll([
       CrocodileFood(
         id: '1',
@@ -155,5 +165,25 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
             'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
       ),
     ]);
+
+    _habitats.addAll([
+      CrocodileHabitat(
+        id: '1',
+        name: 'Тропический вольер',
+        description: 'Просторный вольер с тропической растительностью и бассейном',
+        temperature: 28.5,
+        humidity: 80.0,
+        imageUrl: 'https://images.squarespace-cdn.com/content/v1/568d1cc02399a30df6221280/1528884890037-76N8U4Z58BLB5XJL2NRM/Wildlands_Jungola_JoraVision+3.jpg',
+      ),
+      CrocodileHabitat(
+        id: '2',
+        name: 'Речной биотоп',
+        description: 'Имитация речной среды с проточной водой',
+        temperature: 26.0,
+        humidity: 75.0,
+        imageUrl: 'https://i.pinimg.com/originals/d1/f0/a0/d1f0a01c7fdf1e23f5c926a2ccce4ad6.jpg',
+      ),
+    ]);
+
   }
 }
