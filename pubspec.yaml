@@ -8,10 +8,8 @@ environment:
 
 dependencies:
   <dependency_name>:
-    git:
-      url: https://github.com/<repo_url>
-      ref: some-branch
-      path: some-path
+    path: <your_local_path>
+
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
