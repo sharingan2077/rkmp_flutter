@@ -7,8 +7,7 @@ environment:
   sdk: ^3.9.2
 
 dependencies:
-  <dependency_name>:
-    path: <your_local_path>
+  cached_network_image: ^3.3.1
 
   flutter:
     sdk: flutter
