@@ -7,4 +7,7 @@ class CrocodileImageUrls {
     // Your logic to get specific crocodile image
     return 'https://example.com/crocodile-$crocodileId.jpg';
   }
+  static String getCrocodileListImage() {
+    return 'https://masterpiecer-images.s3.yandex.net/eb0fb74e89be11eeb35f1ad242dc1d78:upscaled';
+  }
 }

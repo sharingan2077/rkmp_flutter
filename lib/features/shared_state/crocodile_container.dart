@@ -128,6 +128,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
           onDashboard: _showDashboard,
           onChangeStatus: (id, status) => _changeStatusCrocodile(id, status),
           onDelete: (id) => _deleteCrocodile(id),
+          imageUrl: _getCrocodileListImageUrl(),
         );
       case Screen.form:
         return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList);
@@ -143,6 +144,9 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
 
   String _getCrocodileImageUrl(String crocodileId) {
     return CrocodileImageUrls.getCrocodileImage(crocodileId);
+  }
+  String _getCrocodileListImageUrl() {
+    return CrocodileImageUrls.getCrocodileListImage();
   }
 
   void _initializeSampleData() {

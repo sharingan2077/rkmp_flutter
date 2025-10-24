@@ -9,7 +9,9 @@ class CrocodilesListScreen extends StatelessWidget {
     required this.crocodiles,
     required this.onDashboard,
     required this.onAdd,
-    required this.onChangeStatus, required this.onDelete(id),
+    required this.onChangeStatus,
+    required this.onDelete,
+    required this.imageUrl,
   });
 
   final List<Crocodile> crocodiles;
@@ -17,6 +19,7 @@ class CrocodilesListScreen extends StatelessWidget {
   final VoidCallback onDashboard;
   final void Function(String) onDelete;
   final void Function(String id, CrocodileStatus status) onChangeStatus;
+  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,7 @@ class CrocodilesListScreen extends StatelessWidget {
         crocodiles: crocodiles,
         onDelete: onDelete,
         onChangeStatus: onChangeStatus,
+        imageUrl: imageUrl,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: onAdd,
