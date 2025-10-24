@@ -4,10 +4,15 @@ import 'package:project/features/dashboard/widgets/menu_button.dart';
 import 'package:project/features/dashboard/widgets/stats_card.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key, required this.statusCounts, required this.onList});
+  const DashboardScreen({
+    super.key,
+    required this.statusCounts,
+    required this.onList,
+    required this.onFood,
+  });
 
   final Map<CrocodileStatus, int> statusCounts;
-
+  final VoidCallback onFood;
   final void Function() onList;
 
   @override
@@ -38,6 +43,12 @@ class DashboardScreen extends StatelessWidget {
             text: "Учет крокодилов",
             icon: Icons.list,
             onPressed: onList,
+          ),
+          const SizedBox(height: 8),
+          MenuButton(
+            text: "Питание крокодилов",
+            icon: Icons.restaurant,
+            onPressed: onFood,
           ),
         ],
       ),

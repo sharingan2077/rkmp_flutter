@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
+import 'package:project/features/food/model/crocodile_food.dart';
+import 'package:project/features/food/screens/crocodile_food_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
 import 'package:project/features/dashboard/screens/dashboard_screen.dart';
 
-enum Screen { dashboard, list, form }
+enum Screen { dashboard, list, form, food }
 
 class CrocodileContainer extends StatefulWidget {
   const CrocodileContainer({super.key});
@@ -16,7 +18,18 @@ class CrocodileContainer extends StatefulWidget {
 
 class _CrocodileContainerState extends State<CrocodileContainer> {
   final List<Crocodile> _crocodiles = [];
+  final List<CrocodileFood> _foods = [];
   Screen _currentScreen = Screen.dashboard;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSampleData();
+  }
+
+  void _showFood() {
+    setState(() => _currentScreen = Screen.food);
+  }
 
   void _showDashboard() {
     setState(() => _currentScreen = Screen.dashboard);
@@ -99,6 +112,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         return DashboardScreen(
           statusCounts: _createMapCountStatuses(),
           onList: _showList,
+          onFood: _showFood,
         );
       case Screen.list:
         return CrocodilesListScreen(
@@ -110,6 +124,36 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         );
       case Screen.form:
         return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList);
+      case Screen.food:
+        return CrocodileFoodScreen(foods: _foods, onBack: _showDashboard);
     }
+  }
+
+  String _getCrocodileImageUrl(String crocodileId) {
+    return 'https://example.com/crocodile-$crocodileId.jpg';
+  }
+
+  void _initializeSampleData() {
+    // Sample foods
+    _foods.addAll([
+      CrocodileFood(
+        id: '1',
+        name: 'Свежая рыба',
+        type: 'Рыба',
+        quantity: 5.0,
+        unit: 'кг',
+        imageUrl:
+            'https://avatars.mds.yandex.net/i?id=df4a18595c421c504a675fa50594c62e_l-5161002-images-thumbs&n=13',
+      ),
+      CrocodileFood(
+        id: '2',
+        name: 'Куриное мясо',
+        type: 'Мясо',
+        quantity: 3.0,
+        unit: 'кг',
+        imageUrl:
+            'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
+      ),
+    ]);
   }
 }
