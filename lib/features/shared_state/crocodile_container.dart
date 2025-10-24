@@ -131,7 +131,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
           imageUrl: _getCrocodileListImageUrl(),
         );
       case Screen.form:
-        return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList);
+        return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList, imageUrl: _getCrocodileFormImageUrl(),);
       case Screen.food:
         return CrocodileFoodScreen(foods: _foods, onBack: _showDashboard);
       case Screen.habitat:
@@ -147,6 +147,9 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
   String _getCrocodileListImageUrl() {
     return CrocodileImageUrls.getCrocodileListImage();
+  }
+  String _getCrocodileFormImageUrl() {
+    return CrocodileImageUrls.getCrocodileFormImage();
   }
 
   void _initializeSampleData() {

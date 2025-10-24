@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 
@@ -6,6 +7,7 @@ class CrocodileFormScreen extends StatefulWidget {
     super.key,
     required this.onSave,
     required this.onCancel,
+    required this.imageUrl,
   });
 
   final void Function(
@@ -16,9 +18,9 @@ class CrocodileFormScreen extends StatefulWidget {
     double weight,
     CrocodileStatus status,
     String enclosure,
-  )
-  onSave;
+  ) onSave;
   final VoidCallback onCancel;
+  final String imageUrl;
 
   @override
   State<CrocodileFormScreen> createState() => _CrocodileFormScreenState();
@@ -71,52 +73,76 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _nameController,
-              decoration: const InputDecoration(labelText: 'Имя'),
-            ),
-            TextField(
-              controller: _speciesController,
-              decoration: const InputDecoration(labelText: 'Вид'),
-            ),
-            TextField(
-              controller: _ageController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Возраст (лет)'),
-            ),
-            TextField(
-              controller: _lengthController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Длина (м)'),
-            ),
-            TextField(
-              controller: _weightController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(labelText: 'Вес (кг)'),
-            ),
-            TextField(
-              controller: _enclosureController,
-              decoration: const InputDecoration(labelText: 'Вольер'),
-            ),
-            DropdownButtonFormField<CrocodileStatus>(
-              initialValue: _status,
-              items: _statuses.map((status) {
-                return DropdownMenuItem<CrocodileStatus>(
-                  value: status,
-                  child: Text(status.label),
-                );
-              }).toList(),
-              onChanged: (newValue) {
-                _status = newValue!;
-              },
-              decoration: const InputDecoration(
-                labelText: 'Состояние здоровья',
+            Container(
+              height: 180,
+              width: 300,
+              margin: const EdgeInsets.only(bottom: 16),
+              child: CachedNetworkImage(
+                imageUrl: widget.imageUrl,
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, progress) =>
+                const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(
+                    Icons.image,
+                    color: Colors.grey,
+                    size: 50,
+                  ),
+                ),
               ),
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submitForm,
-              child: const Text('Добавить крокодила'),
+            Expanded(
+              child: ListView(
+                children: [
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Имя'),
+                  ),
+                  TextField(
+                    controller: _speciesController,
+                    decoration: const InputDecoration(labelText: 'Вид'),
+                  ),
+                  TextField(
+                    controller: _ageController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Возраст (лет)'),
+                  ),
+                  TextField(
+                    controller: _lengthController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Длина (м)'),
+                  ),
+                  TextField(
+                    controller: _weightController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Вес (кг)'),
+                  ),
+                  TextField(
+                    controller: _enclosureController,
+                    decoration: const InputDecoration(labelText: 'Вольер'),
+                  ),
+                  DropdownButtonFormField<CrocodileStatus>(
+                    initialValue: _status,
+                    items: _statuses.map((status) {
+                      return DropdownMenuItem<CrocodileStatus>(
+                        value: status,
+                        child: Text(status.label),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      _status = newValue!;
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Состояние здоровья',
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: const Text('Добавить крокодила'),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
