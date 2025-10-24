@@ -54,4 +54,5 @@ class FoodItemTile extends StatelessWidget {
       ),
     );
   }
+
 }
