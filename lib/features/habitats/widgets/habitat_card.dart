@@ -32,15 +32,8 @@ class HabitatCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  habitat.name,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(habitat.name, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold,),),
                 const SizedBox(height: 8),
                 Text(habitat.description),
                 const SizedBox(height: 8),

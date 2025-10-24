@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile.dart';
+import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/food/model/crocodile_food.dart';
 import 'package:project/features/food/screens/crocodile_food_screen.dart';
@@ -141,7 +142,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
 
   String _getCrocodileImageUrl(String crocodileId) {
-    return 'https://example.com/crocodile-$crocodileId.jpg';
+    return CrocodileImageUrls.getCrocodileImage(crocodileId);
   }
 
   void _initializeSampleData() {
