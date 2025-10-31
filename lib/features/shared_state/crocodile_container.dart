@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile.dart';
-import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
-import 'package:project/features/food/model/crocodile_food.dart';
-import 'package:project/features/food/screens/crocodile_food_screen.dart';
+import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
 import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
-import 'package:project/features/dashboard/screens/dashboard_screen.dart';
+import 'package:project/features/food/model/crocodile_food.dart';
+import 'package:project/features/food/screens/crocodile_food_screen.dart';
 import 'package:project/features/habitats/models/crocodile_habitat.dart';
 import 'package:project/features/habitats/screens/crocodile_habitat_screen.dart';
-
-enum Screen { dashboard, list, form, food, habitat }
+import 'package:project/features/dashboard/screens/dashboard_screen.dart';
 
 class CrocodileContainer extends StatefulWidget {
   const CrocodileContainer({super.key});
@@ -23,7 +21,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   final List<Crocodile> _crocodiles = [];
   final List<CrocodileFood> _foods = [];
   final List<CrocodileHabitat> _habitats = [];
-  Screen _currentScreen = Screen.dashboard;
+  int _currentIndex = 0;
 
   @override
   void initState() {
@@ -31,47 +29,130 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
     _initializeSampleData();
   }
 
-  void _showFood() {
-    setState(() => _currentScreen = Screen.food);
+  void _initializeSampleData() {
+    _crocodiles.addAll([
+      Crocodile(
+        id: '1',
+        name: 'Гена',
+        species: 'Нильский крокодил',
+        age: 15,
+        length: 4.2,
+        weight: 450.0,
+        status: CrocodileStatus.healthy,
+        enclosure: 'Тропический вольер A',
+      ),
+      Crocodile(
+        id: '2',
+        name: 'Клава',
+        species: 'Гребнистый крокодил',
+        age: 12,
+        length: 3.8,
+        weight: 380.0,
+        status: CrocodileStatus.needCheckup,
+        enclosure: 'Речной биотоп B',
+      ),
+    ]);
+
+    _foods.addAll([
+      CrocodileFood(
+        id: '1',
+        name: 'Свежая рыба',
+        type: 'Рыба',
+        quantity: 5.0,
+        unit: 'кг',
+        imageUrl: 'https://avatars.mds.yandex.net/i?id=df4a18595c421c504a675fa50594c62e_l-5161002-images-thumbs&n=13',
+      ),
+      CrocodileFood(
+        id: '2',
+        name: 'Куриное мясо',
+        type: 'Мясо',
+        quantity: 3.0,
+        unit: 'кг',
+        imageUrl: 'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
+      ),
+    ]);
+
+    _habitats.addAll([
+      CrocodileHabitat(
+        id: '1',
+        name: 'Тропический вольер',
+        description: 'Просторный вольер с тропической растительностью и бассейном, имитирующий естественную среду обитания нильских крокодилов',
+        temperature: 28.5,
+        humidity: 80.0,
+        imageUrl: 'https://images.squarespace-cdn.com/content/v1/568d1cc02399a30df6221280/1528884890037-76N8U4Z58BLB5XJL2NRM/Wildlands_Jungola_JoraVision+3.jpg',
+      ),
+      CrocodileHabitat(
+        id: '2',
+        name: 'Речной биотоп',
+        description: 'Имитация речной среды с проточной водой и каменистыми берегами, идеальная для гребнистых крокодилов',
+        temperature: 26.0,
+        humidity: 75.0,
+        imageUrl: 'https://i.pinimg.com/originals/d1/f0/a0/d1f0a01c7fdf1e23f5c926a2ccce4ad6.jpg',
+      ),
+    ]);
   }
 
-  void _showDashboard() {
-    setState(() => _currentScreen = Screen.dashboard);
+  void _onTabTapped(int index) {
+    if (_currentIndex == index) return;
+
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
-  void _showList() {
-    setState(() => _currentScreen = Screen.list);
+  void _showFoodScreen() {
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CrocodileFoodScreen(
+    //       foods: _foods,
+    //       onBack: _goBack,
+    //     ),
+    //   ),
+    // );
   }
 
   void _showForm() {
-    setState(() => _currentScreen = Screen.form);
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CrocodileFormScreen(
+    //       onSave: _addCrocodile,
+    //       onCancel: _goBack,
+    //       imageUrl: _getCrocodileFormImageUrl(),
+    //     ),
+    //   ),
+    // );
   }
 
-  void _showHabitat() => setState(() => _currentScreen = Screen.habitat);
+  void _goBack() {
+    Navigator.pop(context);
+  }
 
-  void _addCrocodile(
-    String name,
-    String species,
-    int age,
-    double length,
-    double weight,
-    CrocodileStatus status,
-    String enclosure,
-  ) {
-    setState(() {
-      final newCrocodile = Crocodile(
-        id: DateTime.now().microsecondsSinceEpoch.toString(),
-        name: name,
-        species: species,
-        age: age,
-        length: length,
-        weight: weight,
-        status: status,
-        enclosure: enclosure,
-      );
-      _crocodiles.add(newCrocodile);
-      _currentScreen = Screen.list;
-    });
+  // Обертка с BottomNavigationBar
+  Widget _buildWithBottomNav({required Widget child, required int currentIndex}) {
+    return Scaffold(
+      body: child,
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: _onTabTapped,
+        type: BottomNavigationBarType.fixed,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Главная',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            label: 'Крокодилы',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.nature),
+            label: 'Среда',
+          ),
+        ],
+      ),
+    );
   }
 
   void _changeStatusCrocodile(String id, CrocodileStatus status) {
@@ -92,7 +173,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Крокодил удален'),
+        content: Text('Крокодил ${removed.name} удален'),
         action: SnackBarAction(
           label: 'Отменить',
           onPressed: () => setState(() {
@@ -111,87 +192,81 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
     return result;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    switch (_currentScreen) {
-      case Screen.dashboard:
-        return DashboardScreen(
-          statusCounts: _createMapCountStatuses(),
-          onList: _showList,
-          onFood: _showFood,
-          onHabitat: _showHabitat,
-        );
-      case Screen.list:
-        return CrocodilesListScreen(
-          crocodiles: _crocodiles,
-          onAdd: _showForm,
-          onDashboard: _showDashboard,
-          onChangeStatus: (id, status) => _changeStatusCrocodile(id, status),
-          onDelete: (id) => _deleteCrocodile(id),
-          imageUrl: _getCrocodileListImageUrl(),
-        );
-      case Screen.form:
-        return CrocodileFormScreen(onSave: _addCrocodile, onCancel: _showList, imageUrl: _getCrocodileFormImageUrl(),);
-      case Screen.food:
-        return CrocodileFoodScreen(foods: _foods, onBack: _showDashboard);
-      case Screen.habitat:
-        return CrocodileHabitatScreen(
-          habitats: _habitats,
-          onBack: _showDashboard,
-        );
-    }
+  void _addCrocodile(
+      String name,
+      String species,
+      int age,
+      double length,
+      double weight,
+      CrocodileStatus status,
+      String enclosure,
+      ) {
+    setState(() {
+      final newCrocodile = Crocodile(
+        id: DateTime.now().microsecondsSinceEpoch.toString(),
+        name: name,
+        species: species,
+        age: age,
+        length: length,
+        weight: weight,
+        status: status,
+        enclosure: enclosure,
+      );
+      _crocodiles.add(newCrocodile);
+    });
+    _goBack();
   }
 
   String _getCrocodileImageUrl(String crocodileId) {
     return CrocodileImageUrls.getCrocodileImage(crocodileId);
   }
+
   String _getCrocodileListImageUrl() {
     return CrocodileImageUrls.getCrocodileListImage();
   }
+
   String _getCrocodileFormImageUrl() {
     return CrocodileImageUrls.getCrocodileFormImage();
   }
 
-  void _initializeSampleData() {
-    _foods.addAll([
-      CrocodileFood(
-        id: '1',
-        name: 'Свежая рыба',
-        type: 'Рыба',
-        quantity: 5.0,
-        unit: 'кг',
-        imageUrl:
-            'https://avatars.mds.yandex.net/i?id=df4a18595c421c504a675fa50594c62e_l-5161002-images-thumbs&n=13',
-      ),
-      CrocodileFood(
-        id: '2',
-        name: 'Куриное мясо',
-        type: 'Мясо',
-        quantity: 3.0,
-        unit: 'кг',
-        imageUrl:
-            'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
-      ),
-    ]);
-
-    _habitats.addAll([
-      CrocodileHabitat(
-        id: '1',
-        name: 'Тропический вольер',
-        description: 'Просторный вольер с тропической растительностью и бассейном',
-        temperature: 28.5,
-        humidity: 80.0,
-        imageUrl: 'https://images.squarespace-cdn.com/content/v1/568d1cc02399a30df6221280/1528884890037-76N8U4Z58BLB5XJL2NRM/Wildlands_Jungola_JoraVision+3.jpg',
-      ),
-      CrocodileHabitat(
-        id: '2',
-        name: 'Речной биотоп',
-        description: 'Имитация речной среды с проточной водой',
-        temperature: 26.0,
-        humidity: 75.0,
-        imageUrl: 'https://i.pinimg.com/originals/d1/f0/a0/d1f0a01c7fdf1e23f5c926a2ccce4ad6.jpg',
-      ),
-    ]);
-
+  @override
+  Widget build(BuildContext context) {
+    // Отображаем текущий экран на основе _currentIndex
+    switch (_currentIndex) {
+      case 0:
+        return _buildWithBottomNav(
+          child: DashboardScreen(
+            statusCounts: _createMapCountStatuses(),
+            onFood: _showFoodScreen,
+          ),
+          currentIndex: 0,
+        );
+      case 1:
+        return _buildWithBottomNav(
+          child: CrocodilesListScreen(
+            crocodiles: _crocodiles,
+            onAdd: _showForm,
+            onChangeStatus: _changeStatusCrocodile,
+            onDelete: _deleteCrocodile,
+            imageUrl: _getCrocodileListImageUrl(),
+          ),
+          currentIndex: 1,
+        );
+      case 2:
+        return _buildWithBottomNav(
+          child: CrocodileHabitatScreen(
+            habitats: _habitats,
+          ),
+          currentIndex: 2,
+        );
+      default:
+        return _buildWithBottomNav(
+          child: DashboardScreen(
+            statusCounts: _createMapCountStatuses(),
+            onFood: _showFoodScreen,
+          ),
+          currentIndex: 0,
+        );
+    }
   }
 }

@@ -8,15 +8,11 @@ class DashboardScreen extends StatelessWidget {
   const DashboardScreen({
     super.key,
     required this.statusCounts,
-    required this.onList,
     required this.onFood,
-    required this.onHabitat,
   });
 
   final Map<CrocodileStatus, int> statusCounts;
-  final void Function() onList;
   final VoidCallback onFood;
-  final VoidCallback onHabitat;
 
   @override
   Widget build(BuildContext context) {
@@ -60,21 +56,9 @@ class DashboardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             MenuButton(
-              text: "Учет крокодилов",
-              icon: Icons.list,
-              onPressed: onList,
-            ),
-            const SizedBox(height: 8),
-            MenuButton(
               text: "Питание крокодилов",
               icon: Icons.restaurant,
               onPressed: onFood,
-            ),
-            const SizedBox(height: 8),
-            MenuButton(
-              text: "Среда обитания",
-              icon: Icons.nature,
-              onPressed: onHabitat,
             ),
             const SizedBox(height: 8),
           ],

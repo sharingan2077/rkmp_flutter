@@ -8,9 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Крокодилы',
-      theme: ThemeData(primarySwatch: Colors.green),
-      home: CrocodileContainer(),
+      title: 'Крокодилий заповедник',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        useMaterial3: true,
+      ),
+      home: const CrocodileContainer(),
     );
   }
 }
