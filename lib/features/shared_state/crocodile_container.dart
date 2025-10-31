@@ -101,15 +101,15 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
 
   void _showFoodScreen() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => CrocodileFoodScreen(
-    //       foods: _foods,
-    //       onBack: _goBack,
-    //     ),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CrocodileFoodScreen(
+          foods: _foods,
+          onBack: _goBack,
+        ),
+      ),
+    );
   }
 
   void _showForm() {
