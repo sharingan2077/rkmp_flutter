@@ -51,10 +51,9 @@ class DashboardScreen extends StatelessWidget {
             MenuButton(
               text: "Питание крокодилов",
               icon: Icons.restaurant,
-              // onPressed: () {
-              //   context.push('/food');
-              // },
-              onPressed: () {}
+              onPressed: () {
+                context.push('/food');
+              },
             ),
           ],
         ),
