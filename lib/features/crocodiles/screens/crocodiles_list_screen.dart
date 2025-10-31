@@ -22,8 +22,7 @@ class CrocodilesListScreen extends StatelessWidget {
       body: CrocodileListView(
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: () => context.push('/crocodiles/form'),
-        onPressed: () {},
+        onPressed: () => context.push('/crocodiles/form'),
         child: const Icon(Icons.add),
       ),
     );
