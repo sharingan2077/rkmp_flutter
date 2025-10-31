@@ -1,21 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/dashboard/widgets/menu_button.dart';
 import 'package:project/features/dashboard/widgets/stats_card.dart';
+import 'package:project/features/shared_state/crocodile_provider.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({
     super.key,
-    required this.statusCounts,
-    required this.onFood,
   });
 
-  final Map<CrocodileStatus, int> statusCounts;
-  final VoidCallback onFood;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CrocodileProvider>(context);
+    final statusCounts = provider.getStatusCounts();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Крокодилий заповедник'),
@@ -41,26 +43,19 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
             StatsCard(
-              countHealthyCrocodiles: statusCounts.putIfAbsent(
-                CrocodileStatus.healthy,
-                    () => 0,
-              ),
-              countNeedCheckupCrocodiles: statusCounts.putIfAbsent(
-                CrocodileStatus.needCheckup,
-                    () => 0,
-              ),
-              countTreatmentCrocodiles: statusCounts.putIfAbsent(
-                CrocodileStatus.treatment,
-                    () => 0,
-              ),
+              countHealthyCrocodiles: statusCounts[CrocodileStatus.healthy] ?? 0,
+              countNeedCheckupCrocodiles: statusCounts[CrocodileStatus.needCheckup] ?? 0,
+              countTreatmentCrocodiles: statusCounts[CrocodileStatus.treatment] ?? 0,
             ),
             const SizedBox(height: 16),
             MenuButton(
               text: "Питание крокодилов",
               icon: Icons.restaurant,
-              onPressed: onFood,
+              // onPressed: () {
+              //   context.push('/food');
+              // },
+              onPressed: () {}
             ),
-            const SizedBox(height: 8),
           ],
         ),
       ),

@@ -1,26 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:project/features/shared_state/crocodile_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
+import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
 
 class CrocodileFormScreen extends StatefulWidget {
-  const CrocodileFormScreen({
-    super.key,
-    required this.onSave,
-    required this.onCancel,
-    required this.imageUrl,
-  });
-
-  final void Function(
-    String name,
-    String species,
-    int age,
-    double length,
-    double weight,
-    CrocodileStatus status,
-    String enclosure,
-  ) onSave;
-  final VoidCallback onCancel;
-  final String imageUrl;
+  const CrocodileFormScreen({super.key});
 
   @override
   State<CrocodileFormScreen> createState() => _CrocodileFormScreenState();
@@ -45,30 +32,81 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
     final lengthText = _lengthController.text;
     final weightText = _weightController.text;
 
+    // Валидация пустых полей
     if (name.isEmpty ||
         species.isEmpty ||
         enclosure.isEmpty ||
         ageText.isEmpty ||
         lengthText.isEmpty ||
         weightText.isEmpty) {
+      _showErrorDialog('Все поля должны быть заполнены');
       return;
     }
 
+    // Валидация числовых значений
     final age = int.tryParse(ageText);
     final length = double.tryParse(lengthText);
     final weight = double.tryParse(weightText);
 
     if (age == null || length == null || weight == null) {
+      _showErrorDialog('Возраст, длина и вес должны быть числами');
       return;
     }
 
-    widget.onSave(name, species, age, length, weight, _status, enclosure);
+    // Получаем провайдер и добавляем крокодила
+    final provider = Provider.of<CrocodileProvider>(context, listen: false);
+    provider.addCrocodile(
+      name,
+      species,
+      age,
+      length,
+      weight,
+      _status,
+      enclosure,
+    );
+
+    // Возвращаемся назад
+    context.pop();
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Ошибка'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => context.pop(),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    // Очищаем контроллеры при уничтожении виджета
+    _nameController.dispose();
+    _speciesController.dispose();
+    _ageController.dispose();
+    _lengthController.dispose();
+    _weightController.dispose();
+    _enclosureController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Добавить крокодила')),
+      appBar: AppBar(
+        title: const Text('Добавить крокодила'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -78,7 +116,7 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
               width: 300,
               margin: const EdgeInsets.only(bottom: 16),
               child: CachedNetworkImage(
-                imageUrl: widget.imageUrl,
+                imageUrl: CrocodileImageUrls.getCrocodileFormImage(), // Используем статический метод
                 fit: BoxFit.cover,
                 progressIndicatorBuilder: (context, url, progress) =>
                 const Center(child: CircularProgressIndicator()),
@@ -91,6 +129,7 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
                 ),
               ),
             ),
+            // Поля формы
             Expanded(
               child: ListView(
                 children: [
@@ -98,31 +137,37 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
                     controller: _nameController,
                     decoration: const InputDecoration(labelText: 'Имя'),
                   ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _speciesController,
                     decoration: const InputDecoration(labelText: 'Вид'),
                   ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _ageController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: 'Возраст (лет)'),
                   ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _lengthController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: 'Длина (м)'),
                   ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _weightController,
                     keyboardType: TextInputType.number,
                     decoration: const InputDecoration(labelText: 'Вес (кг)'),
                   ),
+                  const SizedBox(height: 16),
                   TextField(
                     controller: _enclosureController,
                     decoration: const InputDecoration(labelText: 'Вольер'),
                   ),
+                  const SizedBox(height: 16),
                   DropdownButtonFormField<CrocodileStatus>(
-                    initialValue: _status,
+                    value: _status,
                     items: _statuses.map((status) {
                       return DropdownMenuItem<CrocodileStatus>(
                         value: status,
@@ -130,7 +175,9 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
                       );
                     }).toList(),
                     onChanged: (newValue) {
-                      _status = newValue!;
+                      setState(() {
+                        _status = newValue!;
+                      });
                     },
                     decoration: const InputDecoration(
                       labelText: 'Состояние здоровья',

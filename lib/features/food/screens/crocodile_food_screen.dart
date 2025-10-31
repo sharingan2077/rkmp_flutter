@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:project/features/food/model/crocodile_food.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:project/features/shared_state/crocodile_provider.dart';
 import 'package:project/features/food/widgets/food_item_tile.dart';
 
 class CrocodileFoodScreen extends StatelessWidget {
-  final List<CrocodileFood> foods;
-  final VoidCallback onBack;
-
-  const CrocodileFoodScreen({
-    super.key,
-    required this.foods,
-    required this.onBack,
-  });
+  const CrocodileFoodScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CrocodileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: onBack,
+          onPressed: () => context.pop(),
         ),
         title: const Text('Питание крокодилов'),
       ),
       body: ListView.builder(
-        itemCount: foods.length,
+        itemCount: provider.foods.length,
         itemBuilder: (context, index) {
-          final food = foods[index];
+          final food = provider.foods[index];
           return FoodItemTile(food: food);
         },
       ),

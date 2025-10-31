@@ -1,38 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project/features/crocodiles/models/crocodile.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/crocodiles/widgets/crocodile_list_view.dart';
+import 'package:project/features/shared_state/crocodile_provider.dart';
+import 'package:provider/provider.dart';
 
 class CrocodilesListScreen extends StatelessWidget {
   const CrocodilesListScreen({
     super.key,
-    required this.crocodiles,
-    required this.onAdd,
-    required this.onChangeStatus,
-    required this.onDelete,
-    required this.imageUrl,
   });
 
-  final List<Crocodile> crocodiles;
-  final VoidCallback onAdd;
-  final void Function(String) onDelete;
-  final void Function(String id, CrocodileStatus status) onChangeStatus;
-  final String imageUrl;
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CrocodileProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Учет крокодилов'),
-      ),
+        title: const Text('Учет крокодилов'),),
       body: CrocodileListView(
-        crocodiles: crocodiles,
-        onDelete: onDelete,
-        onChangeStatus: onChangeStatus,
-        imageUrl: imageUrl,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: onAdd,
+        // onPressed: () => context.push('/crocodiles/form'),
+        onPressed: () {},
         child: const Icon(Icons.add),
       ),
     );

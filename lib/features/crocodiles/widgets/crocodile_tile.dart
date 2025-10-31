@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/crocodiles/models/crocodile.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
-import 'package:project/features/crocodiles/widgets/crocodile_tile.dart';
 
 class CrocodileTile extends StatelessWidget {
-  const CrocodileTile({super.key, required this.crocodile, required this.onDelete, required this.onChangeStatus});
+  const CrocodileTile({
+    super.key,
+    required this.crocodile,
+    required this.onDelete,
+    required this.onChangeStatus,
+  });
 
   final Crocodile crocodile;
-  final ValueChanged<String> onDelete;
-  final void Function(String id, CrocodileStatus status) onChangeStatus;
-
-  void _delete() {
-    final st = CrocodileStatus.healthy;
-    st.label;
-  }
+  final VoidCallback onDelete; // Изменили на VoidCallback
+  final ValueChanged<CrocodileStatus> onChangeStatus; // Упростили сигнатуру
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +32,7 @@ class CrocodileTile extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: () => onDelete(crocodile.id),
+                  onPressed: onDelete, // Теперь просто onDelete без параметров
                 ),
               ],
             ),
@@ -48,14 +47,14 @@ class CrocodileTile extends StatelessWidget {
                 Text('Состояние: ${crocodile.status.label}'),
                 const Spacer(),
                 PopupMenuButton<CrocodileStatus>(
-                  onSelected: (newStatus) => onChangeStatus(crocodile.id, newStatus),
-                  itemBuilder: (BuildContext context) => 
+                  onSelected: onChangeStatus, // Теперь просто onChangeStatus
+                  itemBuilder: (BuildContext context) =>
                       CrocodileStatus.values.map((status) {
                         return PopupMenuItem(
                           value: status,
                           child: Text(status.label),
                         );
-                      }).toList()
+                      }).toList(),
                 ),
               ],
             ),
