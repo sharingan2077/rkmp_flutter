@@ -113,16 +113,16 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   }
 
   void _showForm() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => CrocodileFormScreen(
-    //       onSave: _addCrocodile,
-    //       onCancel: _goBack,
-    //       imageUrl: _getCrocodileFormImageUrl(),
-    //     ),
-    //   ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CrocodileFormScreen(
+          onSave: _addCrocodile,
+          onCancel: _goBack,
+          imageUrl: _getCrocodileFormImageUrl(),
+        ),
+      ),
+    );
   }
 
   void _goBack() {
