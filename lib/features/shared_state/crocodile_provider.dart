@@ -41,7 +41,6 @@ class CrocodileProvider extends ChangeNotifier {
       ),
     ]);
 
-    // Initialize foods
     _foods.addAll([
       CrocodileFood(
         id: '1',
@@ -61,7 +60,6 @@ class CrocodileProvider extends ChangeNotifier {
       ),
     ]);
 
-    // Initialize habitats
     _habitats.addAll([
       CrocodileHabitat(
         id: '1',

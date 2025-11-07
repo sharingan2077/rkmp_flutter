@@ -15,7 +15,7 @@ class CrocodileFoodScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+          onPressed: () => context.pop(), // Вертикальная навигация - назад
         ),
         title: const Text('Питание крокодилов'),
       ),

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/dashboard/widgets/menu_button.dart';
@@ -8,10 +8,7 @@ import 'package:project/features/shared_state/crocodile_provider.dart';
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({
-    super.key,
-  });
-
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +19,17 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Крокодилий заповедник'),
         backgroundColor: Colors.green[700],
+        automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              // Горизонтальная навигация - выход
+              context.go('/login');
+            },
+            tooltip: 'Выйти',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -52,8 +60,43 @@ class DashboardScreen extends StatelessWidget {
               text: "Питание крокодилов",
               icon: Icons.restaurant,
               onPressed: () {
+                // Вертикальная навигация
                 context.push('/food');
               },
+            ),
+            const SizedBox(height: 8),
+            MenuButton(
+              text: "Список крокодилов",
+              icon: Icons.list,
+              onPressed: () {
+                // Вертикальная навигация
+                context.push('/crocodiles');
+              },
+            ),
+            const SizedBox(height: 8),
+            MenuButton(
+              text: "Среда обитания",
+              icon: Icons.nature,
+              onPressed: () {
+                // Вертикальная навигация
+                context.push('/habitats');
+              },
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // Горизонтальная навигация - выход
+                  context.go('/login');
+                },
+                icon: const Icon(Icons.logout),
+                label: const Text('Выйти'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
