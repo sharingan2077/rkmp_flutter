@@ -4,11 +4,13 @@ import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
 import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
 import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
+import 'package:project/features/dashboard/screens/dashboard_screen.dart';
 import 'package:project/features/food/model/crocodile_food.dart';
 import 'package:project/features/food/screens/crocodile_food_screen.dart';
 import 'package:project/features/habitats/models/crocodile_habitat.dart';
 import 'package:project/features/habitats/screens/crocodile_habitat_screen.dart';
-import 'package:project/features/dashboard/screens/dashboard_screen.dart';
+import 'package:project/features/login/screens/LoginScreen.dart';
+import 'package:project/features/shared_state/data_repository.dart'; // Импортируем репозиторий
 
 class CrocodileContainer extends StatefulWidget {
   const CrocodileContainer({super.key});
@@ -22,107 +24,88 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   final List<CrocodileFood> _foods = [];
   final List<CrocodileHabitat> _habitats = [];
 
-  // Убираем индекс текущей вкладки, так как навигация будет через кнопки
   Widget? _currentScreen;
 
   @override
   void initState() {
     super.initState();
     _initializeSampleData();
-    // Начинаем с главного экрана
     _currentScreen = DashboardScreen(
       statusCounts: _createMapCountStatuses(),
       onFood: _showFoodScreen,
       onCrocodiles: _showCrocodilesList,
       onHabitats: _showHabitats,
+      onLogout: _logout, // Добавляем обработчик выхода
     );
   }
 
   void _initializeSampleData() {
-    _crocodiles.addAll([
-      Crocodile(
-        id: '1',
-        name: 'Гена',
-        species: 'Нильский крокодил',
-        age: 15,
-        length: 4.2,
-        weight: 450.0,
-        status: CrocodileStatus.healthy,
-        enclosure: 'Тропический вольер A',
-      ),
-      Crocodile(
-        id: '2',
-        name: 'Клава',
-        species: 'Гребнистый крокодил',
-        age: 12,
-        length: 3.8,
-        weight: 380.0,
-        status: CrocodileStatus.needCheckup,
-        enclosure: 'Речной биотоп B',
-      ),
-    ]);
-
-    _foods.addAll([
-      CrocodileFood(
-        id: '1',
-        name: 'Свежая рыба',
-        type: 'Рыба',
-        quantity: 5.0,
-        unit: 'кг',
-        imageUrl: 'https://avatars.mds.yandex.net/i?id=df4a18595c421c504a675fa50594c62e_l-5161002-images-thumbs&n=13',
-      ),
-      CrocodileFood(
-        id: '2',
-        name: 'Куриное мясо',
-        type: 'Мясо',
-        quantity: 3.0,
-        unit: 'кг',
-        imageUrl: 'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
-      ),
-    ]);
-
-    _habitats.addAll([
-      CrocodileHabitat(
-        id: '1',
-        name: 'Тропический вольер',
-        description: 'Просторный вольер с тропической растительностью и бассейном, имитирующий естественную среду обитания нильских крокодилов',
-        temperature: 28.5,
-        humidity: 80.0,
-        imageUrl: 'https://images.squarespace-cdn.com/content/v1/568d1cc02399a30df6221280/1528884890037-76N8U4Z58BLB5XJL2NRM/Wildlands_Jungola_JoraVision+3.jpg',
-      ),
-      CrocodileHabitat(
-        id: '2',
-        name: 'Речной биотоп',
-        description: 'Имитация речной среды с проточной водой и каменистыми берегами, идеальная для гребнистых крокодилов',
-        temperature: 26.0,
-        humidity: 75.0,
-        imageUrl: 'https://i.pinimg.com/originals/d1/f0/a0/d1f0a01c7fdf1e23f5c926a2ccce4ad6.jpg',
-      ),
-    ]);
+    // Используем репозиторий для заполнения данных
+    _crocodiles.addAll(DataRepository.getSampleCrocodiles());
+    _foods.addAll(DataRepository.getSampleFoods());
+    _habitats.addAll(DataRepository.getSampleHabitats());
   }
 
-  // Горизонтальная навигация - переход к списку крокодилов
-  void _showCrocodilesList() {
-    setState(() {
-      _currentScreen = CrocodilesListScreen(
-        crocodiles: _crocodiles,
-        onAdd: _showForm,
-        onChangeStatus: _changeStatusCrocodile,
-        onDelete: _deleteCrocodile,
-        imageUrl: _getCrocodileListImageUrl(),
-        onBack: _goToDashboard, // Кнопка назад ведет на главный экран
-      );
-    });
+  // Горизонтальная навигация - выход в LoginScreen
+  void _logout() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
   }
+
+  // // Горизонтальная навигация - переход к списку крокодилов
+  // void _showCrocodilesList() {
+  //   setState(() {
+  //     _currentScreen = CrocodilesListScreen(
+  //       crocodiles: _crocodiles,
+  //       onAdd: _showForm,
+  //       onChangeStatus: _changeStatusCrocodile,
+  //       onDelete: _deleteCrocodile,
+  //       imageUrl: _getCrocodileListImageUrl(),
+  //       onBack: _goToDashboard,
+  //     );
+  //   });
+  // }
 
   // Горизонтальная навигация - переход к средам обитания
+  // void _showHabitats() {
+  //   setState(() {
+  //     _currentScreen = CrocodileHabitatScreen(
+  //       habitats: _habitats,
+  //       onBack: _goToDashboard,
+  //     );
+  //   });
+  // }
+
   void _showHabitats() {
-    setState(() {
-      _currentScreen = CrocodileHabitatScreen(
-        habitats: _habitats,
-        onBack: _goToDashboard, // Кнопка назад ведет на главный экран
-      );
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CrocodileHabitatScreen(
+          habitats: _habitats,
+          onBack: _goToDashboard,
+        ),
+      ),
+    );
+  }
+
+  void _showCrocodilesList() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CrocodilesListScreen(
+          crocodiles: _crocodiles,
+          onAdd: _showForm,
+          onChangeStatus: _changeStatusCrocodile,
+          onDelete: _deleteCrocodile,
+          imageUrl: _getCrocodileListImageUrl(),
+          onBack: _goToDashboard,
+        ),
+      ),
+    );
   }
 
   // Вертикальная навигация - переход к форме добавления крокодила
@@ -165,6 +148,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         onFood: _showFoodScreen,
         onCrocodiles: _showCrocodilesList,
         onHabitats: _showHabitats,
+        onLogout: _logout, // Передаем функцию выхода
       );
     });
   }
@@ -251,6 +235,7 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
         onFood: _showFoodScreen,
         onCrocodiles: _showCrocodilesList,
         onHabitats: _showHabitats,
+        onLogout: _logout,
       ),
     );
   }

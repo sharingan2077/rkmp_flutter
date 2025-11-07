@@ -11,12 +11,14 @@ class DashboardScreen extends StatelessWidget {
     required this.onFood,
     required this.onCrocodiles,
     required this.onHabitats,
+    required this.onLogout, // Добавляем callback для выхода
   });
 
   final Map<CrocodileStatus, int> statusCounts;
   final VoidCallback onFood;
   final VoidCallback onCrocodiles;
   final VoidCallback onHabitats;
+  final VoidCallback onLogout; // Функция выхода
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,15 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Крокодилий заповедник'),
         backgroundColor: Colors.green[700],
-        // Убираем автоматическую кнопку назад
         automaticallyImplyLeading: false,
+        actions: [
+          // Кнопка выхода в AppBar
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: onLogout,
+            tooltip: 'Выйти',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -77,6 +86,20 @@ class DashboardScreen extends StatelessWidget {
               text: "Среда обитания",
               icon: Icons.nature,
               onPressed: onHabitats,
+            ),
+            const SizedBox(height: 16),
+            // Дополнительная кнопка выхода в основном контенте
+            SizedBox(
+              width: 200,
+              child: ElevatedButton.icon(
+                onPressed: onLogout,
+                icon: const Icon(Icons.logout),
+                label: const Text('Выйти'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
