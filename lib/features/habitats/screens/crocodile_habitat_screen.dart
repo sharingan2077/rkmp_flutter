@@ -4,16 +4,22 @@ import 'package:project/features/habitats/widgets/habitat_card.dart';
 
 class CrocodileHabitatScreen extends StatelessWidget {
   final List<CrocodileHabitat> habitats;
+  final VoidCallback onBack; // Добавляем кнопку назад
 
   const CrocodileHabitatScreen({
     super.key,
     required this.habitats,
+    required this.onBack,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: onBack, // Используем переданную функцию
+        ),
         title: const Text('Среда обитания'),
       ),
       body: ListView.builder(

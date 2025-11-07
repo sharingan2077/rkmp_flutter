@@ -11,6 +11,7 @@ class CrocodilesListScreen extends StatelessWidget {
     required this.onChangeStatus,
     required this.onDelete,
     required this.imageUrl,
+    required this.onBack, // Добавляем кнопку назад
   });
 
   final List<Crocodile> crocodiles;
@@ -18,11 +19,16 @@ class CrocodilesListScreen extends StatelessWidget {
   final void Function(String) onDelete;
   final void Function(String id, CrocodileStatus status) onChangeStatus;
   final String imageUrl;
+  final VoidCallback onBack; // Функция для возврата
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: onBack, // Используем переданную функцию
+        ),
         title: const Text('Учет крокодилов'),
       ),
       body: CrocodileListView(

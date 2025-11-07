@@ -9,10 +9,14 @@ class DashboardScreen extends StatelessWidget {
     super.key,
     required this.statusCounts,
     required this.onFood,
+    required this.onCrocodiles,
+    required this.onHabitats,
   });
 
   final Map<CrocodileStatus, int> statusCounts;
   final VoidCallback onFood;
+  final VoidCallback onCrocodiles;
+  final VoidCallback onHabitats;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +24,8 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Крокодилий заповедник'),
         backgroundColor: Colors.green[700],
+        // Убираем автоматическую кнопку назад
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -61,6 +67,17 @@ class DashboardScreen extends StatelessWidget {
               onPressed: onFood,
             ),
             const SizedBox(height: 8),
+            MenuButton(
+              text: "Список крокодилов",
+              icon: Icons.list,
+              onPressed: onCrocodiles,
+            ),
+            const SizedBox(height: 8),
+            MenuButton(
+              text: "Среда обитания",
+              icon: Icons.nature,
+              onPressed: onHabitats,
+            ),
           ],
         ),
       ),

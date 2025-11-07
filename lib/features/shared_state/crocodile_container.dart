@@ -21,12 +21,21 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
   final List<Crocodile> _crocodiles = [];
   final List<CrocodileFood> _foods = [];
   final List<CrocodileHabitat> _habitats = [];
-  int _currentIndex = 0;
+
+  // Убираем индекс текущей вкладки, так как навигация будет через кнопки
+  Widget? _currentScreen;
 
   @override
   void initState() {
     super.initState();
     _initializeSampleData();
+    // Начинаем с главного экрана
+    _currentScreen = DashboardScreen(
+      statusCounts: _createMapCountStatuses(),
+      onFood: _showFoodScreen,
+      onCrocodiles: _showCrocodilesList,
+      onHabitats: _showHabitats,
+    );
   }
 
   void _initializeSampleData() {
@@ -92,26 +101,31 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
     ]);
   }
 
-  void _onTabTapped(int index) {
-    if (_currentIndex == index) return;
-
+  // Горизонтальная навигация - переход к списку крокодилов
+  void _showCrocodilesList() {
     setState(() {
-      _currentIndex = index;
+      _currentScreen = CrocodilesListScreen(
+        crocodiles: _crocodiles,
+        onAdd: _showForm,
+        onChangeStatus: _changeStatusCrocodile,
+        onDelete: _deleteCrocodile,
+        imageUrl: _getCrocodileListImageUrl(),
+        onBack: _goToDashboard, // Кнопка назад ведет на главный экран
+      );
     });
   }
 
-  void _showFoodScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => CrocodileFoodScreen(
-          foods: _foods,
-          onBack: _goBack,
-        ),
-      ),
-    );
+  // Горизонтальная навигация - переход к средам обитания
+  void _showHabitats() {
+    setState(() {
+      _currentScreen = CrocodileHabitatScreen(
+        habitats: _habitats,
+        onBack: _goToDashboard, // Кнопка назад ведет на главный экран
+      );
+    });
   }
 
+  // Вертикальная навигация - переход к форме добавления крокодила
   void _showForm() {
     Navigator.push(
       context,
@@ -125,34 +139,34 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
     );
   }
 
+  // Вертикальная навигация - переход к питанию
+  void _showFoodScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CrocodileFoodScreen(
+          foods: _foods,
+          onBack: _goBack,
+        ),
+      ),
+    );
+  }
+
+  // Возврат на предыдущий экран (вертикальная навигация)
   void _goBack() {
     Navigator.pop(context);
   }
 
-  // Обертка с BottomNavigationBar
-  Widget _buildWithBottomNav({required Widget child, required int currentIndex}) {
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: _onTabTapped,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Главная',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Крокодилы',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.nature),
-            label: 'Среда',
-          ),
-        ],
-      ),
-    );
+  // Возврат на главный экран (горизонтальная навигация)
+  void _goToDashboard() {
+    setState(() {
+      _currentScreen = DashboardScreen(
+        statusCounts: _createMapCountStatuses(),
+        onFood: _showFoodScreen,
+        onCrocodiles: _showCrocodilesList,
+        onHabitats: _showHabitats,
+      );
+    });
   }
 
   void _changeStatusCrocodile(String id, CrocodileStatus status) {
@@ -231,42 +245,13 @@ class _CrocodileContainerState extends State<CrocodileContainer> {
 
   @override
   Widget build(BuildContext context) {
-    // Отображаем текущий экран на основе _currentIndex
-    switch (_currentIndex) {
-      case 0:
-        return _buildWithBottomNav(
-          child: DashboardScreen(
-            statusCounts: _createMapCountStatuses(),
-            onFood: _showFoodScreen,
-          ),
-          currentIndex: 0,
-        );
-      case 1:
-        return _buildWithBottomNav(
-          child: CrocodilesListScreen(
-            crocodiles: _crocodiles,
-            onAdd: _showForm,
-            onChangeStatus: _changeStatusCrocodile,
-            onDelete: _deleteCrocodile,
-            imageUrl: _getCrocodileListImageUrl(),
-          ),
-          currentIndex: 1,
-        );
-      case 2:
-        return _buildWithBottomNav(
-          child: CrocodileHabitatScreen(
-            habitats: _habitats,
-          ),
-          currentIndex: 2,
-        );
-      default:
-        return _buildWithBottomNav(
-          child: DashboardScreen(
-            statusCounts: _createMapCountStatuses(),
-            onFood: _showFoodScreen,
-          ),
-          currentIndex: 0,
-        );
-    }
+    return Scaffold(
+      body: _currentScreen ?? DashboardScreen(
+        statusCounts: _createMapCountStatuses(),
+        onFood: _showFoodScreen,
+        onCrocodiles: _showCrocodilesList,
+        onHabitats: _showHabitats,
+      ),
+    );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/features/dashboard/screens/dashboard_screen.dart';
+import 'package:project/features/login/screens/LoginScreen.dart';
 import 'package:project/features/shared_state/crocodile_container.dart';
 
 class MyApp extends StatelessWidget {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         useMaterial3: true,
       ),
-      home: const CrocodileContainer(),
+      home: const LoginScreen(),
     );
   }
 }
