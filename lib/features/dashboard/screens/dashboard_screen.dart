@@ -1,20 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/dashboard/widgets/menu_button.dart';
 import 'package:project/features/dashboard/widgets/stats_card.dart';
-import 'package:project/features/shared_state/crocodile_provider.dart';
-import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<CrocodileProvider>(context);
-    final statusCounts = provider.getStatusCounts();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Крокодилий заповедник'),
@@ -24,7 +18,6 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              // Горизонтальная навигация - выход
               context.go('/login');
             },
             tooltip: 'Выйти',
@@ -50,17 +43,12 @@ class DashboardScreen extends StatelessWidget {
                 ),
               ),
             ),
-            StatsCard(
-              countHealthyCrocodiles: statusCounts[CrocodileStatus.healthy] ?? 0,
-              countNeedCheckupCrocodiles: statusCounts[CrocodileStatus.needCheckup] ?? 0,
-              countTreatmentCrocodiles: statusCounts[CrocodileStatus.treatment] ?? 0,
-            ),
+            const StatsCard(),
             const SizedBox(height: 16),
             MenuButton(
               text: "Питание крокодилов",
               icon: Icons.restaurant,
               onPressed: () {
-                // Вертикальная навигация
                 context.push('/food');
               },
             ),
@@ -69,7 +57,6 @@ class DashboardScreen extends StatelessWidget {
               text: "Список крокодилов",
               icon: Icons.list,
               onPressed: () {
-                // Вертикальная навигация
                 context.push('/crocodiles');
               },
             ),
@@ -78,7 +65,6 @@ class DashboardScreen extends StatelessWidget {
               text: "Среда обитания",
               icon: Icons.nature,
               onPressed: () {
-                // Вертикальная навигация
                 context.push('/habitats');
               },
             ),
@@ -87,7 +73,6 @@ class DashboardScreen extends StatelessWidget {
               width: 200,
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Горизонтальная навигация - выход
                   context.go('/login');
                 },
                 icon: const Icon(Icons.logout),
