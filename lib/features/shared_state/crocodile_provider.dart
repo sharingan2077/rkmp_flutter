@@ -3,6 +3,7 @@ import 'package:project/features/crocodiles/models/crocodile.dart';
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 import 'package:project/features/food/model/crocodile_food.dart';
 import 'package:project/features/habitats/models/crocodile_habitat.dart';
+import 'package:project/service_locator.dart';
 
 class CrocodileProvider extends ChangeNotifier {
   final List<Crocodile> _crocodiles = [];
@@ -78,6 +79,23 @@ class CrocodileProvider extends ChangeNotifier {
         imageUrl: 'https://i.pinimg.com/originals/d1/f0/a0/d1f0a01c7fdf1e23f5c926a2ccce4ad6.jpg',
       ),
     ]);
+
+    // Обновляем данные в GetIt после инициализации
+    _updateGetItStats();
+  }
+
+  void _updateGetItStats() {
+    if (locator.isRegistered<AppStateService>()) {
+      final appStateService = locator.get<AppStateService>();
+      final statusCounts = getStatusCounts();
+
+      appStateService.updateStats(
+        totalCrocodiles: _crocodiles.length,
+        healthyCrocodiles: statusCounts[CrocodileStatus.healthy] ?? 0,
+        crocodilesNeedCheckup: statusCounts[CrocodileStatus.needCheckup] ?? 0,
+        crocodilesOnTreatment: statusCounts[CrocodileStatus.treatment] ?? 0,
+      );
+    }
   }
 
   void addCrocodile(
@@ -100,6 +118,7 @@ class CrocodileProvider extends ChangeNotifier {
       enclosure: enclosure,
     );
     _crocodiles.add(newCrocodile);
+    _updateGetItStats(); // Обновляем данные в GetIt
     notifyListeners();
   }
 
@@ -108,6 +127,7 @@ class CrocodileProvider extends ChangeNotifier {
     if (index != -1) {
       final crocodile = _crocodiles[index];
       _crocodiles[index] = crocodile.copyWith(status: status);
+      _updateGetItStats(); // Обновляем данные в GetIt
       notifyListeners();
     }
   }
@@ -116,6 +136,7 @@ class CrocodileProvider extends ChangeNotifier {
     final index = _crocodiles.indexWhere((c) => c.id == id);
     if (index != -1) {
       _crocodiles.removeAt(index);
+      _updateGetItStats(); // Обновляем данные в GetIt
       notifyListeners();
     }
   }
