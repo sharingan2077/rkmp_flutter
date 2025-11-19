@@ -31,32 +31,6 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     _initializeSampleData();
   }
 
-  void _initializeSampleData() {
-    final sampleCrocodiles = [
-      Crocodile(
-        id: '1',
-        name: 'Гена',
-        species: 'Нильский крокодил',
-        age: 15,
-        length: 4.2,
-        weight: 450.0,
-        status: CrocodileStatus.healthy,
-        enclosure: 'Тропический вольер A',
-      ),
-      Crocodile(
-        id: '2',
-        name: 'Клава',
-        species: 'Гребнистый крокодил',
-        age: 12,
-        length: 3.8,
-        weight: 380.0,
-        status: CrocodileStatus.needCheckup,
-        enclosure: 'Речной биотоп B',
-      ),
-    ];
-
-    emit(state.copyWith(crocodiles: sampleCrocodiles));
-  }
 
   void addCrocodile(
       String name,
@@ -93,6 +67,33 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     emit(state.copyWith(crocodiles: updatedCrocodiles));
   }
 
+  void _initializeSampleData() {
+    final sampleCrocodiles = [
+      Crocodile(
+        id: '1',
+        name: 'Гена',
+        species: 'Нильский крокодил',
+        age: 15,
+        length: 4.2,
+        weight: 450.0,
+        status: CrocodileStatus.healthy,
+        enclosure: 'Тропический вольер A',
+      ),
+      Crocodile(
+        id: '2',
+        name: 'Клава',
+        species: 'Гребнистый крокодил',
+        age: 12,
+        length: 3.8,
+        weight: 380.0,
+        status: CrocodileStatus.needCheckup,
+        enclosure: 'Речной биотоп B',
+      ),
+    ];
+
+    emit(state.copyWith(crocodiles: sampleCrocodiles));
+  }
+
   void deleteCrocodile(String id) {
     final updatedCrocodiles = state.crocodiles.where((c) => c.id != id).toList();
     emit(state.copyWith(crocodiles: updatedCrocodiles));
@@ -106,3 +107,4 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     return result;
   }
 }
+
