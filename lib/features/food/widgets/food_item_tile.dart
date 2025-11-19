@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:project/features/food/model/crocodile_food.dart';
+import 'package:project/features/food/models/crocodile_food.dart';
 
 class FoodItemTile extends StatelessWidget {
   final CrocodileFood food;

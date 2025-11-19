@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project/features/shared_state/crocodile_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:project/features/crocodiles/models/crocodile_status.dart';
-import 'package:project/features/crocodiles/models/crocodile_image_urls.dart';
+import 'package:project/service_locator.dart';
+import '../models/crocodile_status.dart';
+import '../models/crocodile_image_urls.dart';
+import '../cubit/crocodile_cubit.dart';
 
 class CrocodileFormScreen extends StatefulWidget {
   const CrocodileFormScreen({super.key});
@@ -32,7 +33,6 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
     final lengthText = _lengthController.text;
     final weightText = _weightController.text;
 
-    // Валидация пустых полей
     if (name.isEmpty ||
         species.isEmpty ||
         enclosure.isEmpty ||
@@ -43,7 +43,6 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
       return;
     }
 
-    // Валидация числовых значений
     final age = int.tryParse(ageText);
     final length = double.tryParse(lengthText);
     final weight = double.tryParse(weightText);
@@ -53,9 +52,8 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
       return;
     }
 
-    // Получаем провайдер и добавляем крокодила
-    final provider = Provider.of<CrocodileProvider>(context, listen: false);
-    provider.addCrocodile(
+    final cubit = locator<CrocodileCubit>();
+    cubit.addCrocodile(
       name,
       species,
       age,
@@ -65,7 +63,6 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
       enclosure,
     );
 
-    // Возвращаемся назад
     context.pop();
   }
 
@@ -87,7 +84,6 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
 
   @override
   void dispose() {
-    // Очищаем контроллеры при уничтожении виджета
     _nameController.dispose();
     _speciesController.dispose();
     _ageController.dispose();
@@ -99,99 +95,101 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Добавить крокодила'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+    return BlocProvider.value(
+      value: locator<CrocodileCubit>(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Добавить крокодила'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Container(
-              height: 180,
-              width: 300,
-              margin: const EdgeInsets.only(bottom: 16),
-              child: CachedNetworkImage(
-                imageUrl: CrocodileImageUrls.getCrocodileFormImage(), // Используем статический метод
-                fit: BoxFit.cover,
-                progressIndicatorBuilder: (context, url, progress) =>
-                const Center(child: CircularProgressIndicator()),
-                errorWidget: (context, url, error) => const Center(
-                  child: Icon(
-                    Icons.image,
-                    color: Colors.grey,
-                    size: 50,
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Container(
+                height: 180,
+                width: 300,
+                margin: const EdgeInsets.only(bottom: 16),
+                child: CachedNetworkImage(
+                  imageUrl: CrocodileImageUrls.getCrocodileFormImage(),
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder: (context, url, progress) =>
+                  const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Center(
+                    child: Icon(
+                      Icons.image,
+                      color: Colors.grey,
+                      size: 50,
+                    ),
                   ),
                 ),
               ),
-            ),
-            // Поля формы
-            Expanded(
-              child: ListView(
-                children: [
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(labelText: 'Имя'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _speciesController,
-                    decoration: const InputDecoration(labelText: 'Вид'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _ageController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Возраст (лет)'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _lengthController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Длина (м)'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _weightController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(labelText: 'Вес (кг)'),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _enclosureController,
-                    decoration: const InputDecoration(labelText: 'Вольер'),
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<CrocodileStatus>(
-                    value: _status,
-                    items: _statuses.map((status) {
-                      return DropdownMenuItem<CrocodileStatus>(
-                        value: status,
-                        child: Text(status.label),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        _status = newValue!;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Состояние здоровья',
+              Expanded(
+                child: ListView(
+                  children: [
+                    TextField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(labelText: 'Имя'),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: const Text('Добавить крокодила'),
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _speciesController,
+                      decoration: const InputDecoration(labelText: 'Вид'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _ageController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: 'Возраст (лет)'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _lengthController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: 'Длина (м)'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _weightController,
+                      keyboardType: TextInputType.number,
+                      decoration: const InputDecoration(labelText: 'Вес (кг)'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _enclosureController,
+                      decoration: const InputDecoration(labelText: 'Вольер'),
+                    ),
+                    const SizedBox(height: 16),
+                    DropdownButtonFormField<CrocodileStatus>(
+                      value: _status,
+                      items: _statuses.map((status) {
+                        return DropdownMenuItem<CrocodileStatus>(
+                          value: status,
+                          child: Text(status.label),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        setState(() {
+                          _status = newValue!;
+                        });
+                      },
+                      decoration: const InputDecoration(
+                        labelText: 'Состояние здоровья',
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: _submitForm,
+                      child: const Text('Добавить крокодила'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

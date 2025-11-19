@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:project/features/crocodiles/screens/crocodile_form_screen.dart';
-import 'package:project/features/crocodiles/screens/crocodiles_list_screen.dart';
-import 'package:project/features/dashboard/screens/dashboard_screen.dart';
-import 'package:project/features/food/screens/crocodile_food_screen.dart';
-import 'package:project/features/habitats/screens/crocodile_habitat_screen.dart';
-import 'package:project/features/login/screens/login_screen.dart';
+import '../features/login/screens/login_screen.dart';
+import '../features/dashboard/screens/dashboard_screen.dart';
+import '../features/crocodiles/screens/crocodiles_list_screen.dart';
+import '../features/crocodiles/screens/crocodile_form_screen.dart';
+import '../features/food/screens/crocodile_food_screen.dart';
+import '../features/habitats/screens/crocodile_habitat_screen.dart';
 
 class AppRouter {
   static final GoRouter router = GoRouter(
