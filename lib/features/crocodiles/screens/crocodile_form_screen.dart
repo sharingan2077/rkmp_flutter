@@ -95,101 +95,98 @@ class _CrocodileFormScreenState extends State<CrocodileFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: locator<CrocodileCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Добавить крокодила'),
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () => context.pop(),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Добавить крокодила'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => context.pop(),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Container(
-                height: 180,
-                width: 300,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: CachedNetworkImage(
-                  imageUrl: CrocodileImageUrls.getCrocodileFormImage(),
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) =>
-                  const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Icon(
-                      Icons.image,
-                      color: Colors.grey,
-                      size: 50,
-                    ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Container(
+              height: 180,
+              width: 300,
+              margin: const EdgeInsets.only(bottom: 16),
+              child: CachedNetworkImage(
+                imageUrl: CrocodileImageUrls.getCrocodileFormImage(),
+                fit: BoxFit.cover,
+                progressIndicatorBuilder: (context, url, progress) =>
+                const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Center(
+                  child: Icon(
+                    Icons.image,
+                    color: Colors.grey,
+                    size: 50,
                   ),
                 ),
               ),
-              Expanded(
-                child: ListView(
-                  children: [
-                    TextField(
-                      controller: _nameController,
-                      decoration: const InputDecoration(labelText: 'Имя'),
+            ),
+            Expanded(
+              child: ListView(
+                children: [
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(labelText: 'Имя'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _speciesController,
+                    decoration: const InputDecoration(labelText: 'Вид'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _ageController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Возраст (лет)'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _lengthController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Длина (м)'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _weightController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(labelText: 'Вес (кг)'),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _enclosureController,
+                    decoration: const InputDecoration(labelText: 'Вольер'),
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<CrocodileStatus>(
+                    value: _status,
+                    items: _statuses.map((status) {
+                      return DropdownMenuItem<CrocodileStatus>(
+                        value: status,
+                        child: Text(status.label),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _status = newValue!;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                      labelText: 'Состояние здоровья',
                     ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _speciesController,
-                      decoration: const InputDecoration(labelText: 'Вид'),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _ageController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Возраст (лет)'),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _lengthController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Длина (м)'),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _weightController,
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(labelText: 'Вес (кг)'),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: _enclosureController,
-                      decoration: const InputDecoration(labelText: 'Вольер'),
-                    ),
-                    const SizedBox(height: 16),
-                    DropdownButtonFormField<CrocodileStatus>(
-                      value: _status,
-                      items: _statuses.map((status) {
-                        return DropdownMenuItem<CrocodileStatus>(
-                          value: status,
-                          child: Text(status.label),
-                        );
-                      }).toList(),
-                      onChanged: (newValue) {
-                        setState(() {
-                          _status = newValue!;
-                        });
-                      },
-                      decoration: const InputDecoration(
-                        labelText: 'Состояние здоровья',
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: _submitForm,
-                      child: const Text('Добавить крокодила'),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: _submitForm,
+                    child: const Text('Добавить крокодила'),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

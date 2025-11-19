@@ -9,24 +9,27 @@ class CrocodileFoodScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+    return BlocProvider(
+      create: (context) => FoodCubit(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => context.pop(),
+          ),
+          title: const Text('Питание крокодилов'),
         ),
-        title: const Text('Питание крокодилов'),
-      ),
-      body: BlocBuilder<FoodCubit, FoodState>(
-        builder: (context, state) {
-          return ListView.builder(
-            itemCount: state.foods.length,
-            itemBuilder: (context, index) {
-              final food = state.foods[index];
-              return FoodItemTile(food: food);
-            },
-          );
-        },
+        body: BlocBuilder<FoodCubit, FoodState>(
+          builder: (context, state) {
+            return ListView.builder(
+              itemCount: state.foods.length,
+              itemBuilder: (context, index) {
+                final food = state.foods[index];
+                return FoodItemTile(food: food);
+              },
+            );
+          },
+        ),
       ),
     );
   }
