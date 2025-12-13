@@ -1,3 +1,4 @@
+// features/crocodiles/models/crocodile.dart
 import 'package:project/features/crocodiles/models/crocodile_status.dart';
 
 class Crocodile {
@@ -9,7 +10,7 @@ class Crocodile {
   final double weight;
   final CrocodileStatus status;
   final String enclosure;
-
+  final String habitatId; // Добавляем ID вольера
 
   Crocodile({
     required this.id,
@@ -20,6 +21,7 @@ class Crocodile {
     required this.weight,
     required this.status,
     required this.enclosure,
+    required this.habitatId, // Обязательное поле
   });
 
   Crocodile copyWith({
@@ -31,6 +33,7 @@ class Crocodile {
     double? weight,
     CrocodileStatus? status,
     String? enclosure,
+    String? habitatId,
   }) {
     return Crocodile(
       id: id ?? this.id,
@@ -41,6 +44,7 @@ class Crocodile {
       weight: weight ?? this.weight,
       status: status ?? this.status,
       enclosure: enclosure ?? this.enclosure,
+      habitatId: habitatId ?? this.habitatId,
     );
   }
 }

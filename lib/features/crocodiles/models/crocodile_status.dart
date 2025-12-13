@@ -1,3 +1,4 @@
+// features/crocodiles/models/crocodile_status.dart
 enum CrocodileStatus {
   healthy('Здоров'),
   needCheckup('Требует осмотра'),

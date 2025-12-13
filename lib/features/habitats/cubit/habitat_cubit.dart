@@ -1,6 +1,8 @@
+// features/habitats/cubit/habitat_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../crocodiles/models/crocodile.dart';
+import '../../crocodiles/models/crocodile_status.dart';
 import '../models/crocodile_habitat.dart';
-
 
 class HabitatState {
   final List<CrocodileHabitat> habitats;
@@ -22,7 +24,6 @@ class HabitatState {
   }
 }
 
-// features/habitats/cubit/habitat_cubit.dart
 class HabitatCubit extends Cubit<HabitatState> {
   HabitatCubit() : super(const HabitatState()) {
     _initializeSampleData();
@@ -60,5 +61,51 @@ class HabitatCubit extends Cubit<HabitatState> {
     } catch (e) {
       return null;
     }
+  }
+
+
+  // Метод для добавления крокодила в вольер
+  void addCrocodileToHabitat(String habitatId, String crocodileId) {
+    final updatedHabitats = state.habitats.map((habitat) {
+      if (habitat.id == habitatId) {
+        // Проверяем, нет ли уже этого крокодила в вольере
+        if (!habitat.crocodileIds.contains(crocodileId)) {
+          return CrocodileHabitat(
+            id: habitat.id,
+            name: habitat.name,
+            description: habitat.description,
+            temperature: habitat.temperature,
+            humidity: habitat.humidity,
+            imageUrl: habitat.imageUrl,
+            crocodileIds: [...habitat.crocodileIds, crocodileId],
+          );
+        }
+      }
+      return habitat;
+    }).toList();
+
+    emit(state.copyWith(habitats: updatedHabitats));
+  }
+
+  // Метод для удаления крокодила из вольера
+  void removeCrocodileFromHabitat(String habitatId, String crocodileId) {
+    final updatedHabitats = state.habitats.map((habitat) {
+      if (habitat.id == habitatId) {
+        return CrocodileHabitat(
+          id: habitat.id,
+          name: habitat.name,
+          description: habitat.description,
+          temperature: habitat.temperature,
+          humidity: habitat.humidity,
+          imageUrl: habitat.imageUrl,
+          crocodileIds: habitat.crocodileIds
+              .where((id) => id != crocodileId)
+              .toList(),
+        );
+      }
+      return habitat;
+    }).toList();
+
+    emit(state.copyWith(habitats: updatedHabitats));
   }
 }

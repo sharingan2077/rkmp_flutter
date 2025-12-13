@@ -1,3 +1,4 @@
+// features/crocodiles/cubit/crocodile_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../models/crocodile.dart';
 import '../models/crocodile_status.dart';
@@ -31,7 +32,6 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     _initializeSampleData();
   }
 
-
   void addCrocodile(
       String name,
       String species,
@@ -40,6 +40,7 @@ class CrocodileCubit extends Cubit<CrocodileState> {
       double weight,
       CrocodileStatus status,
       String enclosure,
+      String habitatId,
       ) {
     final newCrocodile = Crocodile(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
@@ -50,9 +51,12 @@ class CrocodileCubit extends Cubit<CrocodileState> {
       weight: weight,
       status: status,
       enclosure: enclosure,
+      habitatId: habitatId,
     );
 
-    final updatedCrocodiles = List<Crocodile>.from(state.crocodiles)..add(newCrocodile);
+    final updatedCrocodiles = List<Crocodile>.from(state.crocodiles)
+      ..add(newCrocodile);
+
     emit(state.copyWith(crocodiles: updatedCrocodiles));
   }
 
@@ -67,33 +71,6 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     emit(state.copyWith(crocodiles: updatedCrocodiles));
   }
 
-  void _initializeSampleData() {
-    final sampleCrocodiles = [
-      Crocodile(
-        id: '1',
-        name: 'Гена',
-        species: 'Нильский крокодил',
-        age: 15,
-        length: 4.2,
-        weight: 450.0,
-        status: CrocodileStatus.healthy,
-        enclosure: 'Тропический вольер A',
-      ),
-      Crocodile(
-        id: '2',
-        name: 'Клава',
-        species: 'Гребнистый крокодил',
-        age: 12,
-        length: 3.8,
-        weight: 380.0,
-        status: CrocodileStatus.needCheckup,
-        enclosure: 'Речной биотоп B',
-      ),
-    ];
-
-    emit(state.copyWith(crocodiles: sampleCrocodiles));
-  }
-
   void deleteCrocodile(String id) {
     final updatedCrocodiles = state.crocodiles.where((c) => c.id != id).toList();
     emit(state.copyWith(crocodiles: updatedCrocodiles));
@@ -106,5 +83,33 @@ class CrocodileCubit extends Cubit<CrocodileState> {
     }
     return result;
   }
-}
 
+  void _initializeSampleData() {
+    final sampleCrocodiles = [
+      Crocodile(
+        id: '1',
+        name: 'Гена',
+        species: 'Нильский крокодил',
+        age: 15,
+        length: 4.2,
+        weight: 450.0,
+        status: CrocodileStatus.healthy,
+        enclosure: 'Тропический вольер A',
+        habitatId: '1',
+      ),
+      Crocodile(
+        id: '2',
+        name: 'Клава',
+        species: 'Гребнистый крокодил',
+        age: 12,
+        length: 3.8,
+        weight: 380.0,
+        status: CrocodileStatus.needCheckup,
+        enclosure: 'Речной биотоп B',
+        habitatId: '2',
+      ),
+    ];
+
+    emit(state.copyWith(crocodiles: sampleCrocodiles));
+  }
+}
