@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:project/features/habitats/models/crocodile_habitat.dart';
 import 'package:project/service_locator.dart';
 import 'package:project/features/crocodiles/cubit/crocodile_cubit.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HabitatDetailScreen extends StatelessWidget {
   final CrocodileHabitat habitat;
