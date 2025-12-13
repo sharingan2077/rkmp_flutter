@@ -1,6 +1,8 @@
+// features/food/screens/crocodile_food_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:project/service_locator.dart';
 import '../cubit/food_cubit.dart';
 import '../widgets/food_item_tile.dart';
 
@@ -9,8 +11,8 @@ class CrocodileFoodScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FoodCubit(),
+    return BlocProvider.value(
+      value: locator<FoodCubit>(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -25,10 +27,18 @@ class CrocodileFoodScreen extends StatelessWidget {
               itemCount: state.foods.length,
               itemBuilder: (context, index) {
                 final food = state.foods[index];
-                return FoodItemTile(food: food);
+                final cubit = context.read<FoodCubit>();
+                return FoodItemTile(
+                  food: food,
+                  onDelete: () => cubit.deleteFood(food.id),
+                );
               },
             );
           },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => context.push('/food/form'),
+          child: const Icon(Icons.add),
         ),
       ),
     );

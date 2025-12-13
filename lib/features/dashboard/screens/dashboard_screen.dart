@@ -4,8 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:project/service_locator.dart';
 import '../../auth/cubit/auth_cubit.dart';
-import '../widgets/menu_button.dart';
+import '../widgets/logout_card.dart';
 import '../widgets/stats_card.dart';
+import '../widgets/dashboard_card.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -35,63 +36,151 @@ class DashboardScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: 300,
-                width: 550,
-                child: CachedNetworkImage(
-                  imageUrl: 'https://i.pinimg.com/originals/c1/8c/f1/c18cf15d6886a23d168d4ca9358da24b.png',
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) =>
-                  const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Center(
-                    child: Icon(
-                      Icons.error,
-                      color: Colors.red,
+              // Верхнее изображение - ОПТИМИЗИРОВАННОЕ
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final screenWidth = constraints.maxWidth;
+                  final bannerHeight = screenWidth > 600 ? 180.0 : 120.0; // Увеличили высоту
+
+                  return Container(
+                    height: bannerHeight,
+                    width: double.infinity,
+                    color: Colors.green[50], // Фон на случай если изображение не загрузится
+                    child: Stack(
+                      children: [
+                        // Изображение с fit: BoxFit.contain (сохраняет пропорции)
+                        CachedNetworkImage(
+                          imageUrl: 'https://i.pinimg.com/originals/0f/11/02/0f1102409783f9f98a3551e198851687.png?nii=t',
+                          fit: BoxFit.contain, // Меняем cover на contain
+                          placeholder: (context, url) => Container(
+                            color: Colors.green[100],
+                            child: const Center(child: CircularProgressIndicator()),
+                          ),
+                          errorWidget: (context, url, error) => Container(
+                            color: Colors.grey[300],
+                            child: const Center(
+                              child: Icon(Icons.nature, color: Colors.green, size: 50),
+                            ),
+                          ),
+                        ),
+
+                        // Градиент для лучшей читаемости текста если он будет
+                        Container(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.green[800]!.withOpacity(0.3),
+                                Colors.transparent,
+                                Colors.transparent,
+                                Colors.green[800]!.withOpacity(0.1),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
+                  );
+                },
+              ),
+
+              // Статистика
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: StatsCard(),
+              ),
+
+              // Заголовок меню
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.dashboard, color: Colors.green),
+                    const SizedBox(width: 8),
+                    const Text(
+                      'Быстрый доступ',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const StatsCard(),
-              const SizedBox(height: 16),
-              MenuButton(
-                text: "Питание крокодилов",
-                icon: Icons.restaurant,
-                onPressed: () {
-                  context.push('/food');
+
+              // Адаптивная сетка карточек
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final screenWidth = constraints.maxWidth;
+                  int crossAxisCount;
+
+                  if (screenWidth > 1200) {
+                    crossAxisCount = 4;
+                  } else if (screenWidth > 800) {
+                    crossAxisCount = 3;
+                  } else {
+                    crossAxisCount = 2;
+                  }
+
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: crossAxisCount,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 1.0,
+                      children: [
+                        DashboardCard(
+                          title: 'Крокодилы',
+                          subtitle: 'Учет особей',
+                          icon: Icons.psychology,
+                          color: Colors.green,
+                          onTap: () => context.push('/crocodiles'),
+                        ),
+                        DashboardCard(
+                          title: 'Питание',
+                          subtitle: 'Рацион и запасы',
+                          icon: Icons.restaurant,
+                          color: Colors.orange,
+                          onTap: () => context.push('/food'),
+                        ),
+                        DashboardCard(
+                          title: 'Среда обитания',
+                          subtitle: 'Вольеры и условия',
+                          icon: Icons.nature,
+                          color: Colors.blue,
+                          onTap: () => context.push('/habitats'),
+                        ),
+                        DashboardCard(
+                          title: 'Медицина',
+                          subtitle: 'Записи и лечение',
+                          icon: Icons.medical_services,
+                          color: Colors.red,
+                          onTap: () => context.push('/medical'),
+                        ),
+                        DashboardCard(
+                          title: 'Посетители',
+                          subtitle: 'Учет и билеты',
+                          icon: Icons.people,
+                          color: Colors.purple,
+                          onTap: () => context.push('/visitors'),
+                        ),
+                        LogoutCard(
+                          onLogout: () {
+                            locator<AuthCubit>().logout();
+                            context.go('/login');
+                          },
+                        ),
+                      ],
+                    ),
+                  );
                 },
               ),
-              const SizedBox(height: 8),
-              MenuButton(
-                text: "Список крокодилов",
-                icon: Icons.list,
-                onPressed: () {
-                  context.push('/crocodiles');
-                },
-              ),
-              const SizedBox(height: 8),
-              MenuButton(
-                text: "Среда обитания",
-                icon: Icons.nature,
-                onPressed: () {
-                  context.push('/habitats');
-                },
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: 200,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    locator<AuthCubit>().logout();
-                    context.go('/login');
-                  },
-                  icon: const Icon(Icons.logout),
-                  label: const Text('Выйти'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
-              ),
+
+              const SizedBox(height: 20),
             ],
           ),
         ),

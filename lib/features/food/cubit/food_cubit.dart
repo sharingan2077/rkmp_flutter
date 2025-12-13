@@ -1,7 +1,7 @@
+// features/food/cubit/food_cubit.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project/features/food/models/crocodile_food.dart';
 
-
+import '../models/crocodile_food.dart';
 
 
 class FoodState {
@@ -24,6 +24,7 @@ class FoodState {
   }
 }
 
+
 class FoodCubit extends Cubit<FoodState> {
   FoodCubit() : super(const FoodState()) {
     _initializeSampleData();
@@ -37,7 +38,6 @@ class FoodCubit extends Cubit<FoodState> {
         type: 'Рыба',
         quantity: 5.0,
         unit: 'кг',
-        imageUrl: 'https://avatars.mds.yandex.net/i?id=df4a18595c421c504a675fa50594c62e_l-5161002-images-thumbs&n=13',
       ),
       CrocodileFood(
         id: '2',
@@ -45,10 +45,32 @@ class FoodCubit extends Cubit<FoodState> {
         type: 'Мясо',
         quantity: 3.0,
         unit: 'кг',
-        imageUrl: 'https://image.made-in-china.com/2f0j00sgpkeIcKhtuq/High-Quality-China-Frozen-Whole-Duck-by-Hand-Slaughter-with-Halal-Certificate.webp',
       ),
     ];
 
     emit(state.copyWith(foods: sampleFoods));
+  }
+
+  void addFood(
+      String name,
+      String type,
+      double quantity,
+      String unit,
+      ) {
+    final newFood = CrocodileFood(
+      id: DateTime.now().microsecondsSinceEpoch.toString(),
+      name: name,
+      type: type,
+      quantity: quantity,
+      unit: unit,
+    );
+
+    final updatedFoods = List<CrocodileFood>.from(state.foods)..add(newFood);
+    emit(state.copyWith(foods: updatedFoods));
+  }
+
+  void deleteFood(String id) {
+    final updatedFoods = state.foods.where((food) => food.id != id).toList();
+    emit(state.copyWith(foods: updatedFoods));
   }
 }
