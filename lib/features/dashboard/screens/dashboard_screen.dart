@@ -36,7 +36,6 @@ class DashboardScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              // Верхнее изображение - ОПТИМИЗИРОВАННОЕ
               LayoutBuilder(
                 builder: (context, constraints) {
                   final screenWidth = constraints.maxWidth;
